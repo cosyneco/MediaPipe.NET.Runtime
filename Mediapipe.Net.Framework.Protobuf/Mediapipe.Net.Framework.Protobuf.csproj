@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Project">
-    <TargetFrameworks>net6.0;netstandard2.1;</TargetFrameworks>
+    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     <OutputType>Library</OutputType>
     <AssemtlyTitle>Mediapipe.Net.Framework.Protobuf</AssemtlyTitle>
     <AssemblyName>Mediapipe.Net.Framework.Protobuf</AssemblyName>
