@@ -111,7 +111,6 @@ class BuildCommand(Command):
     self.desktop = command_args.args.desktop
     self.android = command_args.args.android
     self.ios= command_args.args.ios
-    self.analyzers = command_args.args.analyzers
     self.opencv = command_args.args.opencv
     self.include_opencv_libs = command_args.args.include_opencv_libs
 
