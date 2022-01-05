@@ -18,8 +18,6 @@ jobs:
             runner: ubuntu-latest
           - name: Linux_GPU
             runner: ubuntu-latest
-          - name: MacOS
-            runner: macOS-latest
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
