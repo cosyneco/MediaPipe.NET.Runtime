@@ -327,13 +327,10 @@ class UninstallCommand(Command):
         self._rmtree(ios_framework_path)
 
     if self.protobuf:
-      self.console.info('Uninstalling protobuf sources and dlls...')
+      self.console.info('Uninstalling protobuf sources...')
 
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Plugins', 'Protobuf', '*.dll'), recursive=True):
-        self._remove(f)
-
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Scripts', 'Protobuf', '*'), recursive=True):
-        if not f.endswith('.meta'):
+      for f in glob.glob(os.path.join(_INSTALL_PATH, _PROTOBUF_PATH, '*'), recursive=True):
+        if f.endswith('.cs'):
           self._remove(f)
 
 
