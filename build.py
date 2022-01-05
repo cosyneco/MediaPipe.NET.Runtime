@@ -20,6 +20,17 @@ _INSTALL_PATH = os.curdir
 
 _PROTOBUF_PATH = 'Mediapipe.Net.Framework.Protobuf'
 
+short_sysname = {
+  'Linux': 'linux',
+  'Darwin': 'osx',
+  'Windows': 'win'
+}
+
+def runtime_path(computation: str):
+  return os.path.join(
+    f'Mediapipe.Net.Runtime.{computation.upper()}', 'runtimes',
+    f'{short_sysname[platform.system()]}-x64', 'native')
+
 class Console:
   def __init__(self, verbose):
     self.verbose = verbose
@@ -120,7 +131,7 @@ class BuildCommand(Command):
       self._run_command(self._build_desktop_commands())
       self._unzip(
         os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_desktop.zip'),
-        os.path.join(_BUILD_PATH, 'Plugins'))
+        os.path.join(_BUILD_PATH, runtime_path(self.desktop)))
 
       if self.include_opencv_libs:
         if self.opencv == 'cmake':
@@ -129,7 +140,7 @@ class BuildCommand(Command):
           self._run_command(self._build_opencv_libs())
           self._unzip(
             os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'opencv_libs.zip'),
-            os.path.join(_BUILD_PATH, 'Plugins', 'OpenCV'))
+            os.path.join(_BUILD_PATH, runtime_path(self.desktop)))
 
       self.console.info('Built native libraries for Desktop')
 
@@ -306,7 +317,7 @@ class UninstallCommand(Command):
 
     if self.desktop:
       self.console.info('Uninstalling native libraries for Desktop...')
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Plugins', '*'), recursive=True):
+      for f in glob.glob(os.path.join(_INSTALL_PATH, runtime_path(self.desktop), '*'), recursive=True):
         if f.endswith('.dll') or f.endswith('.dylib') or f.endswith('.so'):
           self._remove(f)
 
