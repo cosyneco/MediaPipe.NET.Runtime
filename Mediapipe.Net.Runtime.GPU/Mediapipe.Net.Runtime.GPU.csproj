@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Project">
+    <TargetFramework>net6.0;netstandard2.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyTitle>Mediapipe.Net.Runtime.GPU</AssemblyTitle>
+    <AssemblyName>Mediapipe.Net.Runtime.GPU</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Nuget">
+    <IsPackable>true</IsPackable>
+    <PackageId>Mediapipe.Net.Runtime.GPU</PackageId>
+    <Version>0.8.9</Version>
+    <Authors>homuler;Vignette</Authors>
+    <PackageTags>Google;Mediapipe;Tracking;Media Analysis</PackageTags>
+    <Title>Mediapipe.Net.Runtime.GPU</Title>
+    <Description>Native runtime libraries for MediaPipe.NET (GPU)</Description>
+    <Copyright>2022 homuler and Vignette</Copyright>
+    <PackageProjectUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Pre-build task">
+    <!-- MediaPipe currently only supports GPU computation on Linux. -->
+    <PreBuildEvent>
+      if [ ! -f $(MSBuildProjectDirectory)/runtimes/linux-x64/native/libmediapipe_c.so ]; then
+        cd $(MSBuildProjectDirectory)/../
+        python3 build.py build --desktop gpu --opencv cmake -vv
+      fi
+    </PreBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup Label="Native libraries">
+    <!-- See https://github.com/ppy/osu-framework/blob/master/osu.Framework.NativeLibs/osu.Framework.NativeLibs.csproj. -->
+    <None Include="runtimes\**\*" Pack="true" PackagePath="runtimes" />
+    <None Include="_._">
+      <!-- Means this package doesn't provide any reference assembly to the target framework.
+           nupkg is a zip file and doesn't has concept for folders,
+           so there must be something under the path, otherwise client will consider this package broken.
+           See https://docs.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu5128#scenario-2 . -->
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Label="Documents">
+    <None Include="..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>
