@@ -22,6 +22,8 @@ _ANALYZER_PATH = os.path.join('Assets', 'Analyzers')
 _STREAMING_ASSETS_PATH = os.path.join('Assets', 'StreamingAssets')
 _INSTALL_PATH = os.path.join('Packages', 'com.github.homuler.mediapipe', 'Runtime')
 
+_PROTOBUF_PATH = 'Mediapipe.Net.Framework.Protobuf'
+
 class Console:
   def __init__(self, verbose):
     self.verbose = verbose
@@ -115,7 +117,7 @@ class BuildCommand(Command):
     self._run_command(self._build_proto_srcs_commands())
     self._unzip(
       os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_proto_srcs.zip'),
-      os.path.join(_BUILD_PATH, 'Scripts', 'Protobuf'))
+      os.path.join(_BUILD_PATH, _PROTOBUF_PATH))
     self.console.info('Built protobuf sources')
 
     self.console.info('Downloading dlls...')
