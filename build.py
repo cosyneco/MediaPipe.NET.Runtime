@@ -117,6 +117,7 @@ class BuildCommand(Command):
     self.compilation_mode = command_args.args.compilation_mode
     self.linkopt = command_args.args.linkopt
     self.protobuf = command_args.args.protobuf;
+    self.install = command_args.args.install;
 
   def run(self):
     if self.protobuf:
@@ -161,11 +162,22 @@ class BuildCommand(Command):
 
       self.console.info('Built native libraries for iOS')
 
-    self.console.info('Installing built resources...')
-    # _copytree fails on Windows, so run `cp -r` instead.
-    self._copytree(_BUILD_PATH, _INSTALL_PATH)
-
-    self.console.info('Installed')
+    if self.install:
+      if os.path.isdir(_BUILD_PATH):
+        self.console.info('Installing built resources...')
+        # _copytree fails on Windows, so run `cp -r` instead.
+        self._copytree(_BUILD_PATH, _INSTALL_PATH)
+        self.console.info('Installed')
+      else:
+        self.console.warn('There are no built resources to install')
+    else:
+      if self._is_building():
+        self.console.info('Dry run complete!')
+      else:
+        self.console.warn('I did literally nothing')
+    
+  def _is_building(self):
+    return bool(self.desktop or self.android or self.ios)
 
   def _is_windows(self):
     return self.system == 'Windows'
@@ -371,6 +383,7 @@ class Argument:
     build_command_parser.add_argument('--include_opencv_libs', action='store_true', help='Include OpenCV\'s native libraries for Desktop')
     build_command_parser.add_argument('--linkopt', '-l', action='append', help='Linker options')
     build_command_parser.add_argument('--protobuf', action=argparse.BooleanOptionalAction, default=True)
+    build_command_parser.add_argument('--install', action=argparse.BooleanOptionalAction, default=True)
     build_command_parser.add_argument('--verbose', '-v', action='count', default=0)
 
     clean_command_parser = subparsers.add_parser('clean', help='Clean cache files')
