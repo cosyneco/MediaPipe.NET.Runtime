@@ -1,9 +1,10 @@
+#!/usr/bin/env python
+
 import argparse
 import glob
 import os
 import platform
 import shutil
-import stat
 import subprocess
 
 try:
@@ -15,10 +16,20 @@ except ImportError:
 _BAZEL_BIN_PATH = 'bazel-bin'
 _BAZEL_OUT_PATH = 'bazel-out'
 _BUILD_PATH = 'build'
-_NUGET_PATH = '.nuget'
-_ANALYZER_PATH = os.path.join('Assets', 'Analyzers')
-_STREAMING_ASSETS_PATH = os.path.join('Assets', 'StreamingAssets')
-_INSTALL_PATH = os.path.join('Packages', 'com.github.homuler.mediapipe', 'Runtime')
+_INSTALL_PATH = os.curdir
+
+_PROTOBUF_PATH = 'Mediapipe.Net.Framework.Protobuf'
+
+short_sysname = {
+  'Linux': 'linux',
+  'Darwin': 'osx',
+  'Windows': 'win'
+}
+
+def runtime_path(computation: str):
+  return os.path.join(
+    f'Mediapipe.Net.Runtime.{computation.upper()}', 'runtimes',
+    f'{short_sysname[platform.system()]}-x64', 'native')
 
 class Console:
   def __init__(self, verbose):
@@ -100,49 +111,29 @@ class BuildCommand(Command):
     self.desktop = command_args.args.desktop
     self.android = command_args.args.android
     self.ios= command_args.args.ios
-    self.resources = command_args.args.resources
-    self.analyzers = command_args.args.analyzers
     self.opencv = command_args.args.opencv
     self.include_opencv_libs = command_args.args.include_opencv_libs
 
     self.compilation_mode = command_args.args.compilation_mode
     self.linkopt = command_args.args.linkopt
+    self.protobuf = command_args.args.protobuf;
+    self.install = command_args.args.install;
 
   def run(self):
-    self.console.info('Building protobuf sources...')
-    self._run_command(self._build_proto_srcs_commands())
-    self._unzip(
-      os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_proto_srcs.zip'),
-      os.path.join(_BUILD_PATH, 'Scripts', 'Protobuf'))
-    self.console.info('Built protobuf sources')
-
-    self.console.info('Downloading dlls...')
-    self._run_command(self._build_proto_dlls_commands())
-
-    for f in glob.glob(os.path.join(_NUGET_PATH, '**', 'lib', 'netstandard2.0', '*.dll'), recursive=True):
-      basename = os.path.basename(f)
-      self._copy(f, os.path.join(_BUILD_PATH, 'Plugins', 'Protobuf', basename))
-
-    self.console.info('Downloaded protobuf dlls')
-
-    if self.resources:
-      self.console.info('Building resource files')
-      self._run_command(self._build_resources_commands())
+    if self.protobuf:
+      self.console.info('Building protobuf sources...')
+      self._run_command(self._build_proto_srcs_commands())
       self._unzip(
-        os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_assets.zip'),
-        os.path.join(_BUILD_PATH, 'Resources'))
-      self._unzip(
-        os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_assets.zip'),
-        _STREAMING_ASSETS_PATH)
-
-      self.console.info('Built resource files')
+        os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_proto_srcs.zip'),
+        os.path.join(_BUILD_PATH, _PROTOBUF_PATH))
+      self.console.info('Built protobuf sources')
 
     if self.desktop:
       self.console.info('Building native libraries for Desktop...')
       self._run_command(self._build_desktop_commands())
       self._unzip(
         os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_desktop.zip'),
-        os.path.join(_BUILD_PATH, 'Plugins'))
+        os.path.join(_BUILD_PATH, runtime_path(self.desktop)))
 
       if self.include_opencv_libs:
         if self.opencv == 'cmake':
@@ -151,7 +142,7 @@ class BuildCommand(Command):
           self._run_command(self._build_opencv_libs())
           self._unzip(
             os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'opencv_libs.zip'),
-            os.path.join(_BUILD_PATH, 'Plugins', 'OpenCV'))
+            os.path.join(_BUILD_PATH, runtime_path(self.desktop)))
 
       self.console.info('Built native libraries for Desktop')
 
@@ -171,17 +162,22 @@ class BuildCommand(Command):
 
       self.console.info('Built native libraries for iOS')
 
-    self.console.info('Installing built resources...')
-    # _copytree fails on Windows, so run `cp -r` instead.
-    self._copytree(_BUILD_PATH, _INSTALL_PATH)
-
-    # install analyzers
-    if self.analyzers:
-      self.console.info('Installing Roslyn Analyzers...')
-      for f in glob.glob(os.path.join(_NUGET_PATH, '**', 'analyzers', 'dotnet', 'cs', '*.dll'), recursive=True):
-        self._copy(f, _ANALYZER_PATH)
-
-    self.console.info('Installed')
+    if self.install:
+      if os.path.isdir(_BUILD_PATH):
+        self.console.info('Installing built resources...')
+        # _copytree fails on Windows, so run `cp -r` instead.
+        self._copytree(_BUILD_PATH, _INSTALL_PATH)
+        self.console.info('Installed')
+      else:
+        self.console.warn('There are no built resources to install')
+    else:
+      if self._is_building():
+        self.console.info('Dry run complete!')
+      else:
+        self.console.warn('I did literally nothing')
+    
+  def _is_building(self):
+    return bool(self.desktop or self.android or self.ios)
 
   def _is_windows(self):
     return self.system == 'Windows'
@@ -297,21 +293,10 @@ class BuildCommand(Command):
     commands.append('//mediapipe_api/objc:MediaPipeUnity')
     return commands
 
-  def _build_resources_commands(self):
-    if not self.resources:
-      return []
-
-    commands = self._build_common_commands()
-    commands.append('//mediapipe_api:mediapipe_assets')
-    return commands
-
   def _build_proto_srcs_commands(self):
     commands = self._build_common_commands()
     commands.append('//mediapipe_api:mediapipe_proto_srcs')
     return commands
-
-  def _build_proto_dlls_commands(self):
-    return ['nuget', 'install', '-o', _NUGET_PATH, '-Source', 'https://api.nuget.org/v3/index.json']
 
   def _find_latest_built_framework(self):
     zip_files = glob.glob(os.path.join(_BAZEL_OUT_PATH, '*', 'bin', 'mediapipe_api', 'objc', 'MediaPipeUnity.zip'))
@@ -328,7 +313,6 @@ class CleanCommand(Command):
 
   def run(self):
     self._rmtree(_BUILD_PATH)
-    self._rmtree(_NUGET_PATH)
     self._run_command(['bazel', 'clean', '--expunge'])
 
 
@@ -339,16 +323,14 @@ class UninstallCommand(Command):
     self.desktop = command_args.args.desktop
     self.android = command_args.args.android
     self.ios = command_args.args.ios
-    self.resources = command_args.args.resources
     self.protobuf = command_args.args.protobuf
-    self.analyzers = command_args.args.analyzers
 
   def run(self):
     self._rmtree(_BUILD_PATH)
 
     if self.desktop:
       self.console.info('Uninstalling native libraries for Desktop...')
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Plugins', '*'), recursive=True):
+      for f in glob.glob(os.path.join(_INSTALL_PATH, runtime_path(self.desktop), '*'), recursive=True):
         if f.endswith('.dll') or f.endswith('.dylib') or f.endswith('.so'):
           self._remove(f)
 
@@ -368,31 +350,12 @@ class UninstallCommand(Command):
       if os.path.exists(ios_framework_path):
         self._rmtree(ios_framework_path)
 
-    if self.resources:
-      self.console.info('Uninstalling resource files...')
-
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Resources', '*'), recursive=True):
-        if not f.endswith('.meta'):
-          self._remove(f)
-
-      for f in glob.glob(os.path.join(_STREAMING_ASSETS_PATH, '*'), recursive=False):
-        self._remove(f)
-
     if self.protobuf:
-      self.console.info('Uninstalling protobuf sources and dlls...')
+      self.console.info('Uninstalling protobuf sources...')
 
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Plugins', 'Protobuf', '*.dll'), recursive=True):
-        self._remove(f)
-
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Scripts', 'Protobuf', '*'), recursive=True):
-        if not f.endswith('.meta'):
+      for f in glob.glob(os.path.join(_INSTALL_PATH, _PROTOBUF_PATH, '*'), recursive=True):
+        if f.endswith('.cs'):
           self._remove(f)
-
-    if self.analyzers:
-      self.console.info('Uninstalling analyzers...')
-
-      for f in glob.glob(os.path.join(_ANALYZER_PATH, '*.dll'), recursive=True):
-        self._remove(f)
 
 
 class HelpCommand(Command):
@@ -415,12 +378,12 @@ class Argument:
     build_command_parser.add_argument('--desktop', choices=['cpu', 'gpu'])
     build_command_parser.add_argument('--android', choices=['armv7', 'arm64', 'fat'])
     build_command_parser.add_argument('--ios', choices=['arm64'])
-    build_command_parser.add_argument('--resources', action=argparse.BooleanOptionalAction, default=True)
-    build_command_parser.add_argument('--analyzers', action=argparse.BooleanOptionalAction, default=False, help='Install Roslyn Analyzers')
     build_command_parser.add_argument('--compilation_mode', '-c', choices=['fastbuild', 'opt', 'dbg'], default='opt')
     build_command_parser.add_argument('--opencv', choices=['local', 'cmake'], default='local', help='Decide to which OpenCV to link for Desktop native libraries')
     build_command_parser.add_argument('--include_opencv_libs', action='store_true', help='Include OpenCV\'s native libraries for Desktop')
     build_command_parser.add_argument('--linkopt', '-l', action='append', help='Linker options')
+    build_command_parser.add_argument('--protobuf', action=argparse.BooleanOptionalAction, default=True)
+    build_command_parser.add_argument('--install', action=argparse.BooleanOptionalAction, default=True)
     build_command_parser.add_argument('--verbose', '-v', action='count', default=0)
 
     clean_command_parser = subparsers.add_parser('clean', help='Clean cache files')
@@ -430,9 +393,7 @@ class Argument:
     uninstall_command_parser.add_argument('--desktop', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--android', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--ios', action=argparse.BooleanOptionalAction, default=True)
-    uninstall_command_parser.add_argument('--resources', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--protobuf', action=argparse.BooleanOptionalAction, default=True)
-    uninstall_command_parser.add_argument('--analyzers', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--verbose', '-v', action='count', default=0)
 
     self.args = self.argument_parser.parse_args()
