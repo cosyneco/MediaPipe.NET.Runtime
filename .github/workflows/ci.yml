@@ -1,0 +1,85 @@
+on: [push, pull_request]
+name: Continuous Integration
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os.runner }}
+    env:
+      PROJECT_NAME: Mediapipe.Net.Runtime
+      NET_ENV: net6.0
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: Windows
+            runner: windows-latest
+          - name: Linux
+            runner: ubuntu-latest
+          - name: MacOS
+            runner: macOS-latest
+        computation:
+          - prettyname: CPU
+            smallname: cpu
+          - prettyname: GPU
+            smallname: gpu
+    steps:
+      - name: Cache Bazel directory
+        uses: actions/cache@v2
+        if: ${{ always() }}
+        env:
+          cache-name: bazel-cache
+        with:
+          path: ~/.cache/bazel
+          key: ${{ runner.os }}-${{ matrix.computation.smallname }}-${{ env.cache-name }}-dev
+
+      - name: Cache build directory
+        uses: actions/cache@v2
+        env:
+          cache-name: build-cache
+        with:
+          path: build
+          key: ${{ runner.os }}-${{ env.cache-name }}-dev
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup MinGW
+        if: ${{ matrix.os.name == 'Windows' }}
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          platform: x64
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+
+      - name: Setup Python bin path (Windows)
+        if: ${{ matrix.os.name == 'Windows' }}
+        run: |
+          echo "Setting PYTHON_BIN_PATH to python in PATH"
+          $env:PYTHON_BIN_PATH=(Get-Command python).Path
+          echo $env:PYTHON_BIN_PATH
+
+      - name: Install Numpy
+        run: pip install numpy
+
+      - name: Build C# Protobuf sources
+        if: ${{ matrix.os.name == 'Linux' }}
+        run: python build.py build --protobuf -vv
+
+      - name: Build Native Library (${{ matrix.os.name }}, ${{ matrix.computation.prettyname }})
+        run: python build.py build --no-protobuf --desktop ${{ matrix.computation.smallname }} --opencv cmake -vv
+
+      - name: Upload Build Artifacts (${{ matrix.os.name }}, ${{ matrix.computation.prettyname }})
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build.${{ matrix.os.name }}.${{ matrix.computation.prettyname }}
+          path: build/
