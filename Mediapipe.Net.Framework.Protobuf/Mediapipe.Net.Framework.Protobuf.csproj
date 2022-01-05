@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Project">
+    <TargetFrameworks>net6.0;netstandard2.1;</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <AssemtlyTitle>Mediapipe.Net.Framework.Protobuf</AssemtlyTitle>
+    <AssemblyName>Mediapipe.Net.Framework.Protobuf</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Nuget">
+    <PackageId>Mediapipe.Net.Framework.Protobuf</PackageId>
+    <Version>0.8.9</Version>
+    <Authors>Vignette</Authors>
+    <PackageTags>Google;MediaPipe;Protobuf;</PackageTags>
+    <Title>Mediapipe.Net.Framework.Protobuf</Title>
+    <Description>Auto-generated protobuf files for MediaPipe.NET.</Description>
+    <Copyright>2022 homuler and Vignette</Copyright>
+    <PackageProjectUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="Package References">
+    <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+  </ItemGroup>
+  
+  <ItemGroup Label="Documents">
+    <None Include="..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>
