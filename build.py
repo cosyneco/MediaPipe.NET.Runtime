@@ -117,14 +117,16 @@ class BuildCommand(Command):
 
     self.compilation_mode = command_args.args.compilation_mode
     self.linkopt = command_args.args.linkopt
+    self.protobuf = command_args.args.protobuf;
 
   def run(self):
-    self.console.info('Building protobuf sources...')
-    self._run_command(self._build_proto_srcs_commands())
-    self._unzip(
-      os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_proto_srcs.zip'),
-      os.path.join(_BUILD_PATH, _PROTOBUF_PATH))
-    self.console.info('Built protobuf sources')
+    if self.protobuf:
+      self.console.info('Building protobuf sources...')
+      self._run_command(self._build_proto_srcs_commands())
+      self._unzip(
+        os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_proto_srcs.zip'),
+        os.path.join(_BUILD_PATH, _PROTOBUF_PATH))
+      self.console.info('Built protobuf sources')
 
     if self.desktop:
       self.console.info('Building native libraries for Desktop...')
@@ -369,6 +371,7 @@ class Argument:
     build_command_parser.add_argument('--opencv', choices=['local', 'cmake'], default='local', help='Decide to which OpenCV to link for Desktop native libraries')
     build_command_parser.add_argument('--include_opencv_libs', action='store_true', help='Include OpenCV\'s native libraries for Desktop')
     build_command_parser.add_argument('--linkopt', '-l', action='append', help='Linker options')
+    build_command_parser.add_argument('--protobuf', action=argparse.BooleanOptionalAction, default=True)
     build_command_parser.add_argument('--verbose', '-v', action='count', default=0)
 
     clean_command_parser = subparsers.add_parser('clean', help='Clean cache files')
