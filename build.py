@@ -26,10 +26,11 @@ short_sysname = {
   'Windows': 'win'
 }
 
-def runtime_path(computation: str):
+def runtime_path(computation: str) -> str:
   return os.path.join(
     f'Mediapipe.Net.Runtime.{computation.upper()}', 'runtimes',
     f'{short_sysname[platform.system()]}-x64', 'native')
+
 
 class Console:
   def __init__(self, verbose):
@@ -49,7 +50,7 @@ class Console:
     self.log(31, 'ERROR', message)
 
   def log(self, color, level, message):
-    print('\033[' + str(color) + 'm' + level + '\033[0m (build.py): ' + message)
+    print(f'\033[{str(color)}m{level}\033[0m (build.py): {message}')
 
 
 class Command:
@@ -367,8 +368,8 @@ class HelpCommand(Command):
 
 
 class Argument:
-  argument_parser = None
-  args = None
+  argument_parser: argparse.ArgumentParser
+  args: argparse.Namespace
 
   def __init__(self):
     self.argument_parser = argparse.ArgumentParser()
