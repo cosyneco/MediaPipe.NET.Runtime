@@ -16,7 +16,6 @@ except ImportError:
 _BAZEL_BIN_PATH = 'bazel-bin'
 _BAZEL_OUT_PATH = 'bazel-out'
 _BUILD_PATH = 'build'
-_NUGET_PATH = '.nuget'
 _INSTALL_PATH = os.curdir
 
 _PROTOBUF_PATH = 'Mediapipe.Net.Framework.Protobuf'
@@ -275,9 +274,6 @@ class BuildCommand(Command):
     commands.append('//mediapipe_api:mediapipe_proto_srcs')
     return commands
 
-  def _build_proto_dlls_commands(self):
-    return ['nuget', 'install', '-o', _NUGET_PATH, '-Source', 'https://api.nuget.org/v3/index.json']
-
   def _find_latest_built_framework(self):
     zip_files = glob.glob(os.path.join(_BAZEL_OUT_PATH, '*', 'bin', 'mediapipe_api', 'objc', 'MediaPipeUnity.zip'))
 
@@ -293,7 +289,6 @@ class CleanCommand(Command):
 
   def run(self):
     self._rmtree(_BUILD_PATH)
-    self._rmtree(_NUGET_PATH)
     self._run_command(['bazel', 'clean', '--expunge'])
 
 
