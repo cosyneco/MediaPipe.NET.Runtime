@@ -14,15 +14,12 @@ jobs:
         os:
           - name: Windows
             runner: windows-latest
-          - name: Linux
+          - name: Linux_CPU
+            runner: ubuntu-latest
+          - name: Linux_GPU
             runner: ubuntu-latest
           - name: MacOS
             runner: macOS-latest
-        computation:
-          - prettyname: CPU
-            smallname: cpu
-          - prettyname: GPU
-            smallname: gpu
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
@@ -31,7 +28,7 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ~/.cache/bazel
-          key: ${{ runner.os }}-${{ matrix.computation.smallname }}-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Cache build directory
         uses: actions/cache@v2
@@ -39,16 +36,20 @@ jobs:
           cache-name: build-cache
         with:
           path: build
-          key: ${{ runner.os }}-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup MinGW
+      - name: Setup MinGW (Windows)
         if: ${{ matrix.os.name == 'Windows' }}
         uses: egor-tensin/setup-mingw@v2
         with:
           platform: x64
+
+      - name: Setup EGL (Linux, GPU)
+        if: ${{ matrix.os.name == 'Linux_GPU' }}
+        run: sudo apt install libglfw3-dev libgles2-mesa-dev
 
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v1
@@ -61,25 +62,31 @@ jobs:
           python-version: "3.10"
           architecture: "x64"
 
-      - name: Setup Python bin path (Windows)
+      - name: Install Numpy
+        run: pip install numpy
+
+      - name: Build C# Protobuf sources (Linux, CPU)
+        if: ${{ matrix.os.name == 'Linux_CPU' }}
+        run: python build.py build --no-install --protobuf -vv
+
+      - name: Build Native Library (*nix, CPU)
+        if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
+        run: python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
+
+      - name: Build Native Library (Linux, GPU)
+        if: ${{ matrix.os.name == 'Linux_GPU' }}
+        run: python build.py build --no-install --no-protobuf --desktop gpu --opencv cmake -vv
+
+      - name: Build Native Library (Windows, CPU)
         if: ${{ matrix.os.name == 'Windows' }}
         run: |
           echo "Setting PYTHON_BIN_PATH to python in PATH"
           $env:PYTHON_BIN_PATH=(Get-Command python).Path
           echo $env:PYTHON_BIN_PATH
+          python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
 
-      - name: Install Numpy
-        run: pip install numpy
-
-      - name: Build C# Protobuf sources
-        if: ${{ matrix.os.name == 'Linux' }}
-        run: python build.py build --protobuf -vv
-
-      - name: Build Native Library (${{ matrix.os.name }}, ${{ matrix.computation.prettyname }})
-        run: python build.py build --no-protobuf --desktop ${{ matrix.computation.smallname }} --opencv cmake -vv
-
-      - name: Upload Build Artifacts (${{ matrix.os.name }}, ${{ matrix.computation.prettyname }})
+      - name: Upload Build Artifacts (${{ matrix.os.name }})
         uses: actions/upload-artifact@v2
         with:
-          name: Build.${{ matrix.os.name }}.${{ matrix.computation.prettyname }}
+          name: Build.${{ matrix.os.name }}
           path: build/
