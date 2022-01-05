@@ -5,7 +5,6 @@ import glob
 import os
 import platform
 import shutil
-import stat
 import subprocess
 
 try:
@@ -19,7 +18,6 @@ _BAZEL_OUT_PATH = 'bazel-out'
 _BUILD_PATH = 'build'
 _NUGET_PATH = '.nuget'
 _ANALYZER_PATH = os.path.join('Assets', 'Analyzers')
-_STREAMING_ASSETS_PATH = os.path.join('Assets', 'StreamingAssets')
 _INSTALL_PATH = os.path.join('Packages', 'com.github.homuler.mediapipe', 'Runtime')
 
 _PROTOBUF_PATH = 'Mediapipe.Net.Framework.Protobuf'
@@ -104,7 +102,6 @@ class BuildCommand(Command):
     self.desktop = command_args.args.desktop
     self.android = command_args.args.android
     self.ios= command_args.args.ios
-    self.resources = command_args.args.resources
     self.analyzers = command_args.args.analyzers
     self.opencv = command_args.args.opencv
     self.include_opencv_libs = command_args.args.include_opencv_libs
@@ -119,27 +116,6 @@ class BuildCommand(Command):
       os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_proto_srcs.zip'),
       os.path.join(_BUILD_PATH, _PROTOBUF_PATH))
     self.console.info('Built protobuf sources')
-
-    self.console.info('Downloading dlls...')
-    self._run_command(self._build_proto_dlls_commands())
-
-    for f in glob.glob(os.path.join(_NUGET_PATH, '**', 'lib', 'netstandard2.0', '*.dll'), recursive=True):
-      basename = os.path.basename(f)
-      self._copy(f, os.path.join(_BUILD_PATH, 'Plugins', 'Protobuf', basename))
-
-    self.console.info('Downloaded protobuf dlls')
-
-    if self.resources:
-      self.console.info('Building resource files')
-      self._run_command(self._build_resources_commands())
-      self._unzip(
-        os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_assets.zip'),
-        os.path.join(_BUILD_PATH, 'Resources'))
-      self._unzip(
-        os.path.join(_BAZEL_BIN_PATH, 'mediapipe_api', 'mediapipe_assets.zip'),
-        _STREAMING_ASSETS_PATH)
-
-      self.console.info('Built resource files')
 
     if self.desktop:
       self.console.info('Building native libraries for Desktop...')
@@ -301,14 +277,6 @@ class BuildCommand(Command):
     commands.append('//mediapipe_api/objc:MediaPipeUnity')
     return commands
 
-  def _build_resources_commands(self):
-    if not self.resources:
-      return []
-
-    commands = self._build_common_commands()
-    commands.append('//mediapipe_api:mediapipe_assets')
-    return commands
-
   def _build_proto_srcs_commands(self):
     commands = self._build_common_commands()
     commands.append('//mediapipe_api:mediapipe_proto_srcs')
@@ -343,7 +311,6 @@ class UninstallCommand(Command):
     self.desktop = command_args.args.desktop
     self.android = command_args.args.android
     self.ios = command_args.args.ios
-    self.resources = command_args.args.resources
     self.protobuf = command_args.args.protobuf
     self.analyzers = command_args.args.analyzers
 
@@ -371,16 +338,6 @@ class UninstallCommand(Command):
 
       if os.path.exists(ios_framework_path):
         self._rmtree(ios_framework_path)
-
-    if self.resources:
-      self.console.info('Uninstalling resource files...')
-
-      for f in glob.glob(os.path.join(_INSTALL_PATH, 'Resources', '*'), recursive=True):
-        if not f.endswith('.meta'):
-          self._remove(f)
-
-      for f in glob.glob(os.path.join(_STREAMING_ASSETS_PATH, '*'), recursive=False):
-        self._remove(f)
 
     if self.protobuf:
       self.console.info('Uninstalling protobuf sources and dlls...')
@@ -419,7 +376,6 @@ class Argument:
     build_command_parser.add_argument('--desktop', choices=['cpu', 'gpu'])
     build_command_parser.add_argument('--android', choices=['armv7', 'arm64', 'fat'])
     build_command_parser.add_argument('--ios', choices=['arm64'])
-    build_command_parser.add_argument('--resources', action=argparse.BooleanOptionalAction, default=True)
     build_command_parser.add_argument('--analyzers', action=argparse.BooleanOptionalAction, default=False, help='Install Roslyn Analyzers')
     build_command_parser.add_argument('--compilation_mode', '-c', choices=['fastbuild', 'opt', 'dbg'], default='opt')
     build_command_parser.add_argument('--opencv', choices=['local', 'cmake'], default='local', help='Decide to which OpenCV to link for Desktop native libraries')
@@ -434,7 +390,6 @@ class Argument:
     uninstall_command_parser.add_argument('--desktop', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--android', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--ios', action=argparse.BooleanOptionalAction, default=True)
-    uninstall_command_parser.add_argument('--resources', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--protobuf', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--analyzers', action=argparse.BooleanOptionalAction, default=True)
     uninstall_command_parser.add_argument('--verbose', '-v', action='count', default=0)
