@@ -18,7 +18,7 @@ _BAZEL_OUT_PATH = 'bazel-out'
 _BUILD_PATH = 'build'
 _NUGET_PATH = '.nuget'
 _ANALYZER_PATH = os.path.join('Assets', 'Analyzers')
-_INSTALL_PATH = os.path.join('Packages', 'com.github.homuler.mediapipe', 'Runtime')
+_INSTALL_PATH = os.curdir
 
 _PROTOBUF_PATH = 'Mediapipe.Net.Framework.Protobuf'
 
