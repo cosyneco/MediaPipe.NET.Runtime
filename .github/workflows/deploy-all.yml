@@ -75,12 +75,16 @@ jobs:
         os:
           - name: Windows
             runner: windows-latest
+            cache-path: C:/_bzl
           - name: Linux_CPU
             runner: ubuntu-latest
+            cache-path: ~/.cache/bazel
           - name: Linux_GPU
             runner: ubuntu-latest
+            cache-path: ~/.cache/bazel
           - name: MacOS
             runner: macos-latest
+            cache-path: private/var/tmp
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
@@ -88,7 +92,7 @@ jobs:
         env:
           cache-name: bazel-cache
         with:
-          path: ~/.cache/bazel
+          path: ${{ matrix.os.cache-path }}
           key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Cache build directory
