@@ -1,7 +1,8 @@
 name: Deploy (Protobuf)
 on:
-  release:
-    types: [released, prereleased]
+  push:
+    tags:
+      - '*'
 
 env:
   PROJECT_NAME: Mediapipe.Net.Framework.Protobuf
@@ -77,5 +78,4 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: ${{ github.workspace }}/*.nupkg
-          allowUpdates: true
           tag: ${{ github.event.release.tag_name }}
