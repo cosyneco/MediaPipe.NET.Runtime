@@ -84,7 +84,7 @@ jobs:
             cache-path: ~/.cache/bazel
           - name: MacOS
             runner: macos-latest
-            cache-path: private/var/tmp
+            cache-path: /private/var/tmp
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
