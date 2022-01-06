@@ -45,6 +45,9 @@ jobs:
           python-version: "3.10"
           architecture: "x64"
 
+      - name: Install Numpy
+        run: pip install numpy
+
       - name: Build C# Protobuf sources (Linux, CPU)
         run: python build.py build --protobuf -vv
 
