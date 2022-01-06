@@ -1,13 +1,10 @@
-on: workflow_dispatch
 name: Continuous Integration
+on: workflow_dispatch
 
 jobs:
   build:
     name: Build
     runs-on: ${{ matrix.os.runner }}
-    env:
-      PROJECT_NAME: Mediapipe.Net.Runtime
-      NET_ENV: net6.0
     strategy:
       fail-fast: false
       matrix:
