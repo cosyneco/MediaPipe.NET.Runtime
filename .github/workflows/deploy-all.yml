@@ -75,7 +75,7 @@ jobs:
         os:
           - name: Windows
             runner: windows-latest
-            cache-path: C:/_bzl
+            cache-path: '%HOME%/_bzl'
           - name: Linux_CPU
             runner: ubuntu-latest
             cache-path: ~/.cache/bazel
@@ -84,7 +84,7 @@ jobs:
             cache-path: ~/.cache/bazel
           - name: MacOS
             runner: macos-latest
-            cache-path: /private/var/tmp
+            cache-path: ~/_bzl
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
