@@ -75,7 +75,7 @@ jobs:
         os:
           - name: Windows
             runner: windows-latest
-            cache-path: '%HOME%/_bzl'
+            cache-path: ~/_bzl
           - name: Linux_CPU
             runner: ubuntu-latest
             cache-path: ~/.cache/bazel
