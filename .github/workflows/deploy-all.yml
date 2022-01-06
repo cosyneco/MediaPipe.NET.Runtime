@@ -150,6 +150,20 @@ jobs:
           - CPU
           - GPU
     steps:
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Download Windows build artifacts
         if: ${{ matrix.comp == 'CPU' }}
         uses: actions/download-artifact@v2
@@ -177,9 +191,6 @@ jobs:
         with:
           name: Build.MacOS
           path: build/
-
-      - name: List directories
-        run: ls -lAh build/
 
       - name: Install artifacts
         run: python build.py build --no-protobuf -vv
