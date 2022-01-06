@@ -100,6 +100,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup EGL (Linux, GPU)
+        if: ${{ matrix.os.name == 'Linux_GPU' }}
+        run: sudo apt install libglfw3-dev libgles2-mesa-dev
+
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v1
         with:
