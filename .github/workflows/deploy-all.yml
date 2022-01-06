@@ -233,6 +233,11 @@ jobs:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ github.workspace }}
 
+      - name: Publish Nuget packages (GitHub)
+        run: |
+          dotnet nuget add source --username Speykious --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/vignetteapp/index.json"
+          dotnet nuget push ${{ github.workspace }}/*.nupkg --skip-duplicate --source github
+
       - name: Generate Release
         uses: ncipollo/release-action@v1
         with:
