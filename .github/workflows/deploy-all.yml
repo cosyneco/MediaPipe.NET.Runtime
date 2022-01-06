@@ -1,16 +1,71 @@
-name: Deploy (Runtime)
-on: workflow_dispatch
-# on:
-#   release:
-#     types: [released, prereleased]
+name: Deploy
+on:
+  push:
+    tags:
+      - '*'
 
 env:
   PROJECT_NAME: Mediapipe.Net.Runtime
+  PROTO_NAME: Mediapipe.Net.Framework.Protobuf
   PACKAGE_OUTDIR: ${{ github.workspace }}/out
 
 jobs:
-  build:
-    name: Build
+  build-protobuf:
+    name: Build (Protobuf)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Bazel directory
+        uses: actions/cache@v2
+        if: ${{ always() }}
+        env:
+          cache-name: bazel-cache
+        with:
+          path: ~/.cache/bazel
+          key: Linux-${{ env.cache-name }}-dev
+
+      - name: Cache build directory
+        uses: actions/cache@v2
+        env:
+          cache-name: build-cache
+        with:
+          path: build
+          key: Linux-${{ env.cache-name }}-dev
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+
+      - name: Build C# Protobuf sources (Linux, CPU)
+        if: ${{ matrix.os.name == 'Linux_CPU' }}
+        run: python build.py build --protobuf -vv
+
+      - name: Restore packages
+        run: dotnet restore ${{ env.PROTO_NAME }}
+
+      - name: Build project
+        run: dotnet build ${{ env.PROTO_NAME }} --no-restore --configuration Release
+
+      - name: Pack project
+        run: dotnet pack ${{ env.PROTO_NAME }} --no-restore --no-build --configuration Release --output ${{ env.PACKAGE_OUTDIR }}
+
+      - name: Upload Nuget package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PROTO_NAME }}-nuget
+          path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
+
+  build-runtime:
+    name: Build (Runtime)
     runs-on: ${{ matrix.os.runner }}
     strategy:
       fail-fast: false
@@ -81,9 +136,9 @@ jobs:
           name: Build.${{ matrix.os.name }}
           path: build/
 
-  deploy:
-    name: Deploy
-    needs: build
+  pack-runtime:
+    name: Pack (Runtime)
+    needs: build-runtime
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -134,10 +189,35 @@ jobs:
       - name: Pack project
         run: dotnet pack ${{ env.PROJECT_NAME }}.${{ matrix.comp }} --no-restore --no-build --configuration Release --output ${{ env.PACKAGE_OUTDIR }}
 
+      - name: Upload Nuget package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PROJECT_NAME }}-nuget
+          path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
+
+  deploy:
+    name: Deploy
+    needs: [build-protobuf, pack-runtime]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Protobuf Nuget package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.PROTO_NAME }}-nuget
+          path: ${{ github.workspace }}
+
+      - name: Download Runtime Nuget package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.PROJECT_NAME }}-nuget
+          path: ${{ github.workspace }}
+
       - name: Upload Build
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
-          allowUpdates: true
+          artifacts: ${{ github.workspace }}/*.nupkg
+          name: MediaPipe.NET.Runtime ${{ github.event.release.tag_name }}
           tag: ${{ github.event.release.tag_name }}
-
+          body: This is a test prerelease.
+          generateReleaseNotes: true
+          prerelease: true
