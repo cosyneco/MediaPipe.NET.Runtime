@@ -46,7 +46,6 @@ jobs:
           architecture: "x64"
 
       - name: Build C# Protobuf sources (Linux, CPU)
-        if: ${{ matrix.os.name == 'Linux_CPU' }}
         run: python build.py build --protobuf -vv
 
       - name: Restore packages
