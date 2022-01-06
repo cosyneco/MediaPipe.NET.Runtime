@@ -1,7 +1,8 @@
 name: Deploy (Runtime)
-on:
-  release:
-    types: [released, prereleased]
+on: workflow_dispatch
+# on:
+#   release:
+#     types: [released, prereleased]
 
 env:
   PROJECT_NAME: Mediapipe.Net.Runtime
