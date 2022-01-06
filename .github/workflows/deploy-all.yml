@@ -233,12 +233,11 @@ jobs:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ github.workspace }}
 
-      - name: Upload Build
+      - name: Generate Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: ${{ github.workspace }}/*.nupkg
           name: MediaPipe.NET.Runtime ${{ github.event.release.tag_name }}
           tag: ${{ github.event.release.tag_name }}
-          body: This is a test prerelease.
+          body: MediaPipe.NET.Runtime ${{ github.event.release.tag_name }} is out!
           generateReleaseNotes: true
-          prerelease: true
