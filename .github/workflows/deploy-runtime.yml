@@ -21,6 +21,8 @@ jobs:
             runner: ubuntu-latest
           - name: Linux_GPU
             runner: ubuntu-latest
+          - name: MacOS
+            runner: macos-latest
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
@@ -29,7 +31,7 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ~/.cache/bazel
-          key: Linux-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Cache build directory
         uses: actions/cache@v2
@@ -37,7 +39,7 @@ jobs:
           cache-name: build-cache
         with:
           path: build
-          key: Linux-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -107,6 +109,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Build.Linux_GPU
+          path: build/
+
+      - name: Download MacOS build artifacts
+        if: ${{ matrix.comp == 'CPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.MacOS
           path: build/
 
       - name: List directories
