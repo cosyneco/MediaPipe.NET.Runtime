@@ -72,10 +72,10 @@ jobs:
         with:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ github.workspace }}
-            
+
       - name: Upload Build
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${{ env.PROJECT_NAME }}-nuget/*.nupkg
+          artifacts: ${{ github.workspace }}/*.nupkg
           allowUpdates: true
           tag: ${{ github.event.release.tag_name }}
