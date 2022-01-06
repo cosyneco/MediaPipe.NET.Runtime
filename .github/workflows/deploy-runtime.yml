@@ -1,0 +1,134 @@
+name: Deploy (Runtime)
+on:
+  release:
+    types: [released, prereleased]
+
+env:
+  PROJECT_NAME: Mediapipe.Net.Runtime
+  PACKAGE_OUTDIR: ${{ github.workspace }}/out
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: Windows
+            runner: windows-latest
+          - name: Linux_CPU
+            runner: ubuntu-latest
+          - name: Linux_GPU
+            runner: ubuntu-latest
+    steps:
+      - name: Cache Bazel directory
+        uses: actions/cache@v2
+        if: ${{ always() }}
+        env:
+          cache-name: bazel-cache
+        with:
+          path: ~/.cache/bazel
+          key: Linux-${{ env.cache-name }}-dev
+
+      - name: Cache build directory
+        uses: actions/cache@v2
+        env:
+          cache-name: build-cache
+        with:
+          path: build
+          key: Linux-${{ env.cache-name }}-dev
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+
+      - name: Install Numpy
+        run: pip install numpy
+
+      - name: Build Native Library (*nix, CPU)
+        if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
+        run: python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
+
+      - name: Build Native Library (Linux, GPU)
+        if: ${{ matrix.os.name == 'Linux_GPU' }}
+        run: python build.py build --no-install --no-protobuf --desktop gpu --opencv cmake -vv
+
+      - name: Build Native Library (Windows, CPU)
+        if: ${{ matrix.os.name == 'Windows' }}
+        run: |
+          echo "Setting PYTHON_BIN_PATH to python in PATH"
+          $env:PYTHON_BIN_PATH=(Get-Command python).Path
+          echo $env:PYTHON_BIN_PATH
+          python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
+
+      - name: Upload Build Artifacts (${{ matrix.os.name }})
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build.${{ matrix.os.name }}
+          path: build/
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        comp:
+          - CPU
+          - GPU
+    steps:
+      - name: Download Windows build artifacts
+        if: ${{ matrix.comp == 'CPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.Windows
+          path: build/
+            
+      - name: Download Linux (CPU) build artifacts
+        if: ${{ matrix.comp == 'CPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.Linux_CPU
+          path: build/
+
+      - name: Download Linux (GPU) build artifacts
+        if: ${{ matrix.comp == 'GPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.Linux_GPU
+          path: build/
+
+      - name: List directories
+        run: ls -lAh build/
+
+      - name: Install artifacts
+        run: python build.py build --no-protobuf -vv
+
+      - name: Restore packages
+        run: dotnet restore ${{ env.PROJECT_NAME }}.${{ matrix.comp }}
+
+      - name: Build project
+        run: dotnet build ${{ env.PROJECT_NAME }}.${{ matrix.comp }} --no-restore --configuration Release
+
+      - name: Pack project
+        run: dotnet pack ${{ env.PROJECT_NAME }}.${{ matrix.comp }} --no-restore --no-build --configuration Release --output ${{ env.PACKAGE_OUTDIR }}
+
+      - name: Upload Build
+        uses: ncipollo/release-action@v1
+        if: ${{ github.event.action == 'released' }}
+        with:
+          artifacts: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
+          allowUpdates: true
+          tag: ${{ github.event.release.tag_name }}
+
