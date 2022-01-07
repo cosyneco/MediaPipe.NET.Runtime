@@ -124,7 +124,7 @@ jobs:
       - name: Install Numpy
         run: pip install numpy
 
-      - name: Build Native Library (*nix, CPU)
+      - name: Build Native Library (Linux, CPU)
         if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
         run: python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
 

@@ -66,7 +66,7 @@ jobs:
         if: ${{ matrix.os.name == 'Linux_CPU' }}
         run: python build.py build --no-install --protobuf -vv
 
-      - name: Build Native Library (*nix, CPU)
+      - name: Build Native Library (Linux, CPU)
         if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
         run: python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
 
