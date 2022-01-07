@@ -18,10 +18,10 @@ jobs:
          id: release
          run: |
             if [ ${{ github.event.release.prerelease }} == true ]; then
-              echo "GITHUB_REF is not set, assuming prerelease"
+              echo "Pre-release detected. Switching to pre-release environment"
               echo "::set-output name=ENVIRONMENT::Pre-release"
             else
-              echo "GITHUB_REF is set, assuming release"
+              echo "Release detected. Switching to Production environment"
               echo "::set-output name=ENVIRONMENT::Production"
             fi
             
@@ -63,7 +63,7 @@ jobs:
       - name: Install Numpy
         run: pip install numpy
 
-      - name: Build C# Protobuf sources (Linux, CPU)
+      - name: Build C# Protobuf sources (*nix, CPU)
         run: python build.py build --protobuf -vv
 
       - name: Restore packages
@@ -139,7 +139,7 @@ jobs:
       - name: Install Numpy
         run: pip install numpy
 
-      - name: Build Native Library (Linux, CPU)
+      - name: Build Native Library (*nix, CPU)
         if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
         run: python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
 
