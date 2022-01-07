@@ -1,8 +1,8 @@
 name: Deploy
+
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [ released, prereleased ]
 
 env:
   PROJECT_NAME: Mediapipe.Net.Runtime
@@ -216,10 +216,12 @@ jobs:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
 
-  deploy:
+  deploy-production:
     name: Deploy
     needs: [build-protobuf, pack-runtime]
+    environment: Production
     runs-on: ubuntu-latest
+    if: ${{ github.ref_name != 'main'}} # Production rules require a branch named as *.*.x (e.g. 1.0.x).
     steps:
       - name: Download Protobuf Nuget package artifact
         uses: actions/download-artifact@v2
@@ -232,12 +234,55 @@ jobs:
         with:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ github.workspace }}
+      
+      - name: Deploy to NuGet
+        uses: myci-actions/publish-nuget@5
+        with:
+          filename: ${{ github.workspace }}/*.nupkg
+          api-key: ${{ secrets.NUGET_TOKEN }}
 
       - name: Generate Release
         uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           artifacts: ${{ github.workspace }}/*.nupkg
           name: ${{ format('Mediapipe.Net.Runtime {0}', github.event.release.tag_name) }}
           tag: ${{ github.event.release.tag_name }}
-          body: ${{ format('MediaPipe.NET.Runtime {0} is out!', github.event.release.tag_name) }}
+          body: ${{ format('MediaPipe.NET.Runtime {0} has been released.', github.event.release.tag_name) }}
           generateReleaseNotes: true
+
+  deploy-prerelease:
+    name: Deploy
+    needs: [build-protobuf, pack-runtime]
+    environment: Pre-release
+    runs-on: ubuntu-latest
+    if: ${{ github.ref_name == 'main'}}
+    steps:
+      - name: Download Protobuf Nuget package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.PROTO_NAME }}-nuget
+          path: ${{ github.workspace }}
+
+      - name: Download Runtime Nuget package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.PROJECT_NAME }}-nuget
+          path: ${{ github.workspace }}
+      
+      - name: Deploy to NuGet
+        uses: myci-actions/publish-nuget@5
+        with:
+          filename: ${{ github.workspace }}/*.nupkg
+          api-key: ${{ secrets.NUGET_TOKEN }}
+
+      - name: Generate Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: ${{ github.workspace }}/*.nupkg
+          name: ${{ format('Mediapipe.Net.Runtime {0}', github.event.release.tag_name) }}
+          tag: ${{ github.event.release.tag_name }}
+          body: ${{ format('MediaPipe.NET.Runtime {0} has been released.', github.event.release.tag_name) }}
+          generateReleaseNotes: true
+          prerelease: true
