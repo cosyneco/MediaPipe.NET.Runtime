@@ -259,6 +259,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
+          prerelease: ${{ github.event.release.prerelease }}
           artifacts: ${{ github.workspace }}/*.nupkg
           name: ${{ format('Mediapipe.Net.Runtime {0}', github.event.release.tag_name) }}
           tag: ${{ github.event.release.tag_name }}
