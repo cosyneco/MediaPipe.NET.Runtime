@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   release:
-    types: [ released, prereleased ]
+    types: [ prereleased, released ]
 
 env:
   PROJECT_NAME: Mediapipe.Net.Runtime
@@ -10,6 +10,21 @@ env:
   PACKAGE_OUTDIR: ${{ github.workspace }}/out
 
 jobs:
+  detect-stage:
+     name: "Detect Proper Environment"
+     runs-on: ubuntu-latest
+     steps:
+       - name: Detect Release Cadence
+         id: release
+         run: |
+            if [ ${{ github.event.release.prerelease }} == true ]; then
+              echo "GITHUB_REF is not set, assuming prerelease"
+              echo "::set-output name=ENVIRONMENT::Pre-release"
+            else
+              echo "GITHUB_REF is set, assuming release"
+              echo "::set-output name=ENVIRONMENT::Production"
+            fi
+            
   build-protobuf:
     name: Build (Protobuf)
     runs-on: ubuntu-latest
@@ -218,10 +233,9 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: [build-protobuf, pack-runtime]
-    environment: Production
+    needs: [build-protobuf, pack-runtime, detect-stage]
+    environment: ${{ needs.detect-stage.outputs.envrionment }}
     runs-on: ubuntu-latest
-    if: ${{ github.ref_name != 'main'}} # Production rules require a branch named as *.*.x (e.g. 1.0.x).
     steps:
       - name: Download Protobuf Nuget package artifact
         uses: actions/download-artifact@v2
