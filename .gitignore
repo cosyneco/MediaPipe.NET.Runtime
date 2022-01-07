@@ -453,6 +453,14 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
+###################################
+
+# Bazel
 bazel-*
+
+# Build and binary folders
 build/
 runtimes/
+
+# Auto-generated C# protobuf source files
+Mediapipe.Net.Framework.Protobuf/*.cs

@@ -183,6 +183,9 @@ class BuildCommand(Command):
   def _is_windows(self):
     return self.system == 'Windows'
 
+  def _is_macos(self):
+    return self.system == 'Darwin'
+
   def _build_common_commands(self):
     commands = ['bazel']
 
@@ -190,6 +193,8 @@ class BuildCommand(Command):
       # limit the path length for Windows
       # @see https://docs.bazel.build/versions/master/windows.html#avoid-long-path-issues
       commands += ['--output_user_root', 'C:/_bzl']
+    elif self._is_macos():
+      commands += ['--output_user_root', '~/_bzl']
 
     commands += ['build', '-c', self.compilation_mode]
     commands += self._build_linkopt()
