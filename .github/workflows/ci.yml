@@ -1,6 +1,11 @@
 name: Continuous Integration
 on: [ push, pull_request ]
 
+env:
+  PROJECT_NAME: Mediapipe.Net.Runtime
+  PROTO_NAME: Mediapipe.Net.Framework.Protobuf
+  PACKAGE_OUTDIR: ${{ github.workspace }}/out
+
 jobs:
   build-protobuf:
     name: Build (Protobuf)
