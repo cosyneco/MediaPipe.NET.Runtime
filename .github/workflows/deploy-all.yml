@@ -235,7 +235,7 @@ jobs:
           path: ${{ github.workspace }}
       
       - name: Deploy to NuGet
-        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }}
+        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
 
       - name: Generate Release
         uses: ncipollo/release-action@v1
