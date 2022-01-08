@@ -220,7 +220,7 @@ jobs:
     name: Deploy
     needs: [ build-protobuf, pack-runtime ]
     environment: Pre-release
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Download Protobuf Nuget package artifact
         uses: actions/download-artifact@v2
