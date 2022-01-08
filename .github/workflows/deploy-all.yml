@@ -48,7 +48,7 @@ jobs:
       - name: Install Numpy
         run: pip install numpy
 
-      - name: Build C# Protobuf sources (*nix, CPU)
+      - name: Build C# Protobuf sources (Linux)
         run: python build.py build --protobuf -vv
 
       - name: Restore packages
