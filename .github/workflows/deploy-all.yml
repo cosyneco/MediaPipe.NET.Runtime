@@ -235,10 +235,7 @@ jobs:
           path: ${{ github.workspace }}
       
       - name: Deploy to NuGet
-        uses: myci-actions/publish-nuget@5
-        with:
-          filename: ${{ github.workspace }}/*.nupkg
-          api-key: ${{ secrets.NUGET_TOKEN }}
+        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }}
 
       - name: Generate Release
         uses: ncipollo/release-action@v1
