@@ -1,22 +1,25 @@
 name: Continuous Integration
-on: [ push, pull_request ]
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+
+env:
+  PROJECT_NAME: Mediapipe.Net.Runtime
+  PROTO_NAME: Mediapipe.Net.Framework.Protobuf
+  PACKAGE_OUTDIR: ${{ github.workspace }}/out
 
 jobs:
-  build:
-    name: Build
-    runs-on: ${{ matrix.os.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - name: Windows
-            runner: windows-latest
-          - name: Linux_CPU
-            runner: ubuntu-latest
-          - name: Linux_GPU
-            runner: ubuntu-latest
-          - name: MacOS
-            runner: macos-latest
+  build-protobuf:
+    name: Build (Protobuf)
+    runs-on: ubuntu-latest
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
@@ -25,6 +28,78 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ~/.cache/bazel
+          key: Linux-${{ env.cache-name }}-dev
+
+      - name: Cache build directory
+        uses: actions/cache@v2
+        env:
+          cache-name: build-cache
+        with:
+          path: build
+          key: Linux-${{ env.cache-name }}-dev
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+
+      - name: Install Numpy
+        run: pip install numpy
+
+      - name: Build C# Protobuf sources (Linux)
+        run: python build.py build --protobuf -vv
+
+      - name: Restore packages
+        run: dotnet restore ${{ env.PROTO_NAME }}
+
+      - name: Build project
+        run: dotnet build ${{ env.PROTO_NAME }} --no-restore --configuration Release
+
+      - name: Pack project
+        run: dotnet pack ${{ env.PROTO_NAME }} --no-restore --no-build --configuration Release --output ${{ env.PACKAGE_OUTDIR }}
+
+      - name: Upload Nuget package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PROTO_NAME }}-nuget
+          path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
+
+  build-runtime:
+    name: Build (Runtime)
+    runs-on: ${{ matrix.os.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: Windows
+            runner: windows-latest
+            cache-path: C:/_bzl
+          - name: Linux_CPU
+            runner: ubuntu-latest
+            cache-path: ~/.cache/bazel
+          - name: Linux_GPU
+            runner: ubuntu-latest
+            cache-path: ~/.cache/bazel
+          - name: MacOS
+            runner: macos-latest
+            cache-path: ~/_bzl
+    steps:
+      - name: Cache Bazel directory
+        uses: actions/cache@v2
+        if: ${{ always() }}
+        env:
+          cache-name: bazel-cache
+        with:
+          path: ${{ matrix.os.cache-path }}
           key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Cache build directory
@@ -37,12 +112,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Setup MinGW (Windows)
-        if: ${{ matrix.os.name == 'Windows' }}
-        uses: egor-tensin/setup-mingw@v2
-        with:
-          platform: x64
 
       - name: Setup EGL (Linux, GPU)
         if: ${{ matrix.os.name == 'Linux_GPU' }}
@@ -61,10 +130,6 @@ jobs:
 
       - name: Install Numpy
         run: pip install numpy
-
-      - name: Build C# Protobuf sources (Linux, CPU)
-        if: ${{ matrix.os.name == 'Linux_CPU' }}
-        run: python build.py build --no-install --protobuf -vv
 
       - name: Build Native Library (*nix, CPU)
         if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
@@ -87,3 +152,74 @@ jobs:
         with:
           name: Build.${{ matrix.os.name }}
           path: build/
+
+  pack-runtime:
+    name: Pack (Runtime)
+    needs: build-runtime
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        comp:
+          - CPU
+          - GPU
+    steps:
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          architecture: "x64"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download Windows build artifacts
+        if: ${{ matrix.comp == 'CPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.Windows
+          path: build/
+            
+      - name: Download Linux (CPU) build artifacts
+        if: ${{ matrix.comp == 'CPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.Linux_CPU
+          path: build/
+
+      - name: Download Linux (GPU) build artifacts
+        if: ${{ matrix.comp == 'GPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.Linux_GPU
+          path: build/
+
+      - name: Download MacOS build artifacts
+        if: ${{ matrix.comp == 'CPU' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: Build.MacOS
+          path: build/
+
+      - name: Install artifacts
+        run: python build.py build --no-protobuf -vv
+
+      - name: Restore packages
+        run: dotnet restore ${{ env.PROJECT_NAME }}.${{ matrix.comp }}
+
+      - name: Build project
+        run: dotnet build ${{ env.PROJECT_NAME }}.${{ matrix.comp }} --no-restore --configuration Release
+
+      - name: Pack project
+        run: dotnet pack ${{ env.PROJECT_NAME }}.${{ matrix.comp }} --no-restore --no-build --configuration Release --output ${{ env.PACKAGE_OUTDIR }}
+
+      - name: Upload Nuget package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PROJECT_NAME }}-nuget
+          path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
+

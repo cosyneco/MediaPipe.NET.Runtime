@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   release:
-    types: [ prereleased ]
+    types: [ prereleased, released ]
 
 env:
   PROJECT_NAME: Mediapipe.Net.Runtime
@@ -219,7 +219,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [ build-protobuf, pack-runtime ]
-    environment: Pre-release
+    environment: ${{ github.event.release.prerelease && 'Pre-release' || 'Production' }}
     runs-on: ubuntu-latest
     steps:
       - name: Download Protobuf Nuget package artifact
@@ -235,10 +235,7 @@ jobs:
           path: ${{ github.workspace }}
       
       - name: Deploy to NuGet
-        uses: myci-actions/publish-nuget@5
-        with:
-          filename: ${{ github.workspace }}/*.nupkg
-          api-key: ${{ secrets.NUGET_TOKEN }}
+        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
 
       - name: Generate Release
         uses: ncipollo/release-action@v1
@@ -248,5 +245,5 @@ jobs:
           artifacts: ${{ github.workspace }}/*.nupkg
           name: ${{ format('Mediapipe.Net.Runtime {0}', github.event.release.tag_name) }}
           tag: ${{ github.event.release.tag_name }}
-          body: ${{ format('MediaPipe.NET.Runtime {0} has been released.', github.event.release.tag_name) }}
+          body: ${{ format('MediaPipe.NET.Runtime {0} has been released! Every package below is currently available on [Nuget](https://www.nuget.org).', github.event.release.tag_name) }}
           generateReleaseNotes: true
