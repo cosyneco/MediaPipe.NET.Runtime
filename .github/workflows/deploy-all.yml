@@ -219,7 +219,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [ build-protobuf, pack-runtime ]
-    environment: Pre-release
+    environment: ${{ github.event.release.prerelease && 'Pre-release' || 'Production' }}
     runs-on: ubuntu-latest
     steps:
       - name: Download Protobuf Nuget package artifact
