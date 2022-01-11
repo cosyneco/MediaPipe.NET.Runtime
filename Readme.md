@@ -2,6 +2,8 @@
 
 > Native library package for MediaPipe.NET.
 
+![Deploy workflow](https://github.com/vignetteapp/MediaPipe.NET.Runtime/actions/workflows/deploy-all.yml/badge.svg) ![CI workflow](https://github.com/vignetteapp/MediaPipe.NET.Runtime/actions/workflows/ci.yml/badge.svg)
+
 This is the first half of the port of [MediaPipeUnityPlugin](https://github.com/homuler/MediaPipeUnityPlugin/), in order to use MediaPipe on the latest .NET environment. The goal is to separate the actual C# bindings from the native library into 2 different workflows to increase productivity and efficiency. We think it will drastically improve maintainability as we'll be able to take better advantage of CI and other things like GitHub releases.
 
 We take homuler's Mediapipe C API and building utilities almost completely as-is, use them to build a native Mediapipe library, and ship all libraries for different OSes into one Nuget native runtime package: `Mediapipe.Net.Runtime`.
