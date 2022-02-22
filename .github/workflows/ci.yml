@@ -89,9 +89,9 @@ jobs:
           - name: Linux_GPU
             runner: ubuntu-latest
             cache-path: ~/.cache/bazel
-          - name: MacOS
-            runner: macos-latest
-            cache-path: ~/_bzl
+          # - name: MacOS
+          #   runner: macos-latest
+          #   cache-path: ~/_bzl
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
@@ -198,12 +198,12 @@ jobs:
           name: Build.Linux_GPU
           path: build/
 
-      - name: Download MacOS build artifacts
-        if: ${{ matrix.comp == 'CPU' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: Build.MacOS
-          path: build/
+      # - name: Download MacOS build artifacts
+      #   if: ${{ matrix.comp == 'CPU' }}
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: Build.MacOS
+      #     path: build/
 
       - name: Install artifacts
         run: python build.py build --no-protobuf -vv
