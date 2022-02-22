@@ -126,11 +126,11 @@ jobs:
 
       - name: Build Native Library (*nix, CPU)
         if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
-        run: python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
+        run: python build.py build --no-install --no-protobuf -c fastbuild --desktop cpu --opencv cmake -vv
 
       - name: Build Native Library (Linux, GPU)
         if: ${{ matrix.os.name == 'Linux_GPU' }}
-        run: python build.py build --no-install --no-protobuf --desktop gpu --opencv cmake -vv
+        run: python build.py build --no-install --no-protobuf -c fastbuild --desktop gpu --opencv cmake -vv
 
       - name: Build Native Library (Windows, CPU)
         if: ${{ matrix.os.name == 'Windows' }}
@@ -138,7 +138,7 @@ jobs:
           echo "Setting PYTHON_BIN_PATH to python in PATH"
           $env:PYTHON_BIN_PATH=(Get-Command python).Path
           echo $env:PYTHON_BIN_PATH
-          python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
+          python build.py build --no-install --no-protobuf -c fastbuild --desktop cpu --opencv cmake -vv
 
       - name: Upload Build Artifacts (${{ matrix.os.name }})
         uses: actions/upload-artifact@v2
