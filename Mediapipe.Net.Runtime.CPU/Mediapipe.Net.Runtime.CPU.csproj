@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Project">
-    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
     <AssemblyTitle>Mediapipe.Net.Runtime.CPU</AssemblyTitle>
     <AssemblyName>Mediapipe.Net.Runtime.CPU</AssemblyName>
