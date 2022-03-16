@@ -1,0 +1,12 @@
+{
+    "bsv.bazel.buildFlags": ["-c", "opt", "--define", "MEDIAPIPE_DISABLE_GPU=1"],
+    "bsv.cc.compdb.targets": [
+      "//mediapipe_api/framework/...",
+      "//mediapipe_api/graphs/...",
+      "//mediapipe_api/modules/...",
+      "//mediapipe_api/util/...",
+      "//mediapipe_api:calculators",
+      "//mediapipe_api:common",
+      "//mediapipe_api:mediapipe_c",
+    ]
+}
