@@ -25,7 +25,7 @@ MpReturnCode mp_ImageFrame__ui_i_i_i_Pui8_PF(mediapipe::ImageFormat::Format form
                                              mediapipe::ImageFrame** image_frame_out) {
   TRY_ALL
     // Copy pixel data
-    mediapipe::ImageFrame* output_frame = absl::make_unique<mediapipe::ImageFrame>();
+    mediapipe::ImageFrame* output_frame = new mediapipe::ImageFrame{};
     output_frame->CopyPixelData(format, width,
         height, width_step, pixel_data, mediapipe::ImageFrame::kDefaultAlignmentBoundary);
     *image_frame_out = output_frame;
