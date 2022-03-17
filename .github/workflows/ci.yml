@@ -117,6 +117,10 @@ jobs:
         if: ${{ matrix.os.name == 'Linux_GPU' }}
         run: sudo apt update && sudo apt install libglfw3-dev libgles2-mesa-dev
 
+      - name: Setup MSBuild
+        if: ${{ matrix.os.name == 'Windows' }}
+        uses: microsoft/setup-msbuild@v1.1
+
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v1
         with:
