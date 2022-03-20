@@ -81,7 +81,7 @@ jobs:
       matrix:
         os:
           - name: Windows
-            runner: windows-latest
+            runner: windows-2019
             cache-path: C:/_bzl
           - name: Linux_CPU
             runner: ubuntu-latest
@@ -89,9 +89,9 @@ jobs:
           - name: Linux_GPU
             runner: ubuntu-latest
             cache-path: ~/.cache/bazel
-          - name: MacOS
-            runner: macos-latest
-            cache-path: ~/_bzl
+          # - name: MacOS
+          #   runner: macos-latest
+          #   cache-path: ~/_bzl
     steps:
       - name: Cache Bazel directory
         uses: actions/cache@v2
@@ -115,7 +115,7 @@ jobs:
 
       - name: Setup EGL (Linux, GPU)
         if: ${{ matrix.os.name == 'Linux_GPU' }}
-        run: sudo apt install libglfw3-dev libgles2-mesa-dev
+        run: sudo apt update && sudo apt install libglfw3-dev libgles2-mesa-dev
 
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v1
@@ -133,11 +133,11 @@ jobs:
 
       - name: Build Native Library (*nix, CPU)
         if: ${{ matrix.os.name != 'Windows' && matrix.os.name != 'Linux_GPU' }}
-        run: python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
+        run: python build.py build --no-install --no-protobuf -c dbg --desktop cpu --opencv cmake -vv
 
       - name: Build Native Library (Linux, GPU)
         if: ${{ matrix.os.name == 'Linux_GPU' }}
-        run: python build.py build --no-install --no-protobuf --desktop gpu --opencv cmake -vv
+        run: python build.py build --no-install --no-protobuf -c dbg --desktop gpu --opencv cmake -vv
 
       - name: Build Native Library (Windows, CPU)
         if: ${{ matrix.os.name == 'Windows' }}
@@ -145,7 +145,7 @@ jobs:
           echo "Setting PYTHON_BIN_PATH to python in PATH"
           $env:PYTHON_BIN_PATH=(Get-Command python).Path
           echo $env:PYTHON_BIN_PATH
-          python build.py build --no-install --no-protobuf --desktop cpu --opencv cmake -vv
+          python build.py build --no-install --no-protobuf -c dbg --desktop cpu --opencv cmake -vv
 
       - name: Upload Build Artifacts (${{ matrix.os.name }})
         uses: actions/upload-artifact@v2
@@ -198,12 +198,12 @@ jobs:
           name: Build.Linux_GPU
           path: build/
 
-      - name: Download MacOS build artifacts
-        if: ${{ matrix.comp == 'CPU' }}
-        uses: actions/download-artifact@v2
-        with:
-          name: Build.MacOS
-          path: build/
+      # - name: Download MacOS build artifacts
+      #   if: ${{ matrix.comp == 'CPU' }}
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: Build.MacOS
+      #     path: build/
 
       - name: Install artifacts
         run: python build.py build --no-protobuf -vv

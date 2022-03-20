@@ -325,17 +325,17 @@ http_archive(
 )
 
 # You may run setup_android.sh to install Android SDK and NDK.
-android_ndk_repository(
-    name = "androidndk",
-    # If you need to support older versions of Android, please specify the API Level.
-    # Otherwise, some symbols in libmediapipe_jni.so cannot be resolved and `DllNotFoundException` will be thrown.
+# android_ndk_repository(
+#     name = "androidndk",
+#     # If you need to support older versions of Android, please specify the API Level.
+#     # Otherwise, some symbols in libmediapipe_jni.so cannot be resolved and `DllNotFoundException` will be thrown.
 
-    # api_level = 21,
-)
+#     # api_level = 21,
+# )
 
-android_sdk_repository(
-    name = "androidsdk",
-)
+# android_sdk_repository(
+#     name = "androidsdk",
+# )
 
 # iOS basic build deps.
 

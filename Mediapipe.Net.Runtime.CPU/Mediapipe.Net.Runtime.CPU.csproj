@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Project">
-    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
     <AssemblyTitle>Mediapipe.Net.Runtime.CPU</AssemblyTitle>
     <AssemblyName>Mediapipe.Net.Runtime.CPU</AssemblyName>
@@ -10,7 +10,7 @@
   <PropertyGroup Label="Nuget">
     <IsPackable>true</IsPackable>
     <PackageId>Mediapipe.Net.Runtime.CPU</PackageId>
-    <Version>0.8.9</Version>
+    <Version>0.8.9.1</Version>
     <Authors>homuler;Vignette</Authors>
     <PackageTags>Google;Mediapipe;Tracking;Media Analysis</PackageTags>
     <Title>Mediapipe.Net.Runtime.CPU</Title>
