@@ -74,7 +74,7 @@ jobs:
       matrix:
         os:
           - name: Windows
-            runner: windows-latest
+            runner: windows-2019
             cache-path: C:/_bzl
           - name: Linux_CPU
             runner: ubuntu-latest
