@@ -457,6 +457,7 @@ $RECYCLE.BIN/
 
 # Bazel
 bazel-*
+compile_commands.json
 
 # Build and binary folders
 build/

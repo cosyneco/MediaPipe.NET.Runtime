@@ -35,14 +35,6 @@ diff --git a/mediapipe/calculators/tensor/BUILD b/mediapipe/calculators/tensor/B
 index 72c2f51..d43c261 100644
 --- a/mediapipe/calculators/tensor/BUILD
 +++ b/mediapipe/calculators/tensor/BUILD
-@@ -35,6 +35,7 @@ selects.config_setting_group(
-     name = "compute_shader_unavailable",
-     match_any = [
-         "//mediapipe/gpu:disable_gpu",
-+        "//mediapipe:emscripten",
-     ],
- )
- 
 @@ -572,6 +573,11 @@ cc_library(
              "//mediapipe/gpu:MPPMetalHelper",
              "//mediapipe/gpu:gpu_buffer",
