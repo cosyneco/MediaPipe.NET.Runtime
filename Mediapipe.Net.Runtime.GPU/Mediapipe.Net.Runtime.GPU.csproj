@@ -16,6 +16,7 @@
     <Title>Mediapipe.Net.Runtime.GPU</Title>
     <Description>Native runtime libraries for MediaPipe.NET (GPU)</Description>
     <Copyright>2022 homuler and Vignette</Copyright>
+    <RepositoryUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</RepositoryUrl>
     <PackageProjectUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <IncludeBuildOutput>false</IncludeBuildOutput>
