@@ -108,7 +108,7 @@ jobs:
 
       - name: Setup EGL (Linux, GPU)
         if: ${{ matrix.os.name == 'Linux_GPU' }}
-        run: sudo apt install libglfw3-dev libgles2-mesa-dev
+        run: sudo apt update && sudo apt install libglfw3-dev libgles2-mesa-dev
 
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v1
