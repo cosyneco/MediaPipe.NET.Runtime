@@ -2,7 +2,7 @@
 
 > Native library package for MediaPipe.NET.
 
-![Deploy workflow](https://github.com/vignetteapp/MediaPipe.NET.Runtime/actions/workflows/deploy-all.yml/badge.svg) ![CI workflow](https://github.com/vignetteapp/MediaPipe.NET.Runtime/actions/workflows/ci.yml/badge.svg)
+[![Discord](https://img.shields.io/discord/871618277258960896?color=7289DA&label=%20&logo=discord&logoColor=white)](https://go.vignetteapp.org/discord) ![NuGet](https://img.shields.io/nuget/v/MediaPipe.NET.Runtime.CPU) ![NuGet](https://img.shields.io/nuget/v/MediaPipe.NET.Runtime.GPU) ![Deploy workflow](https://github.com/vignetteapp/MediaPipe.NET.Runtime/actions/workflows/deploy-all.yml/badge.svg) ![CI workflow](https://github.com/vignetteapp/MediaPipe.NET.Runtime/actions/workflows/ci.yml/badge.svg)
 
 This is the first half of the port of [MediaPipeUnityPlugin](https://github.com/homuler/MediaPipeUnityPlugin/), in order to use MediaPipe on the latest .NET environment. The goal is to separate the actual C# bindings from the native library into 2 different workflows to increase productivity and efficiency. We think it will drastically improve maintainability as we'll be able to take better advantage of CI and other things like GitHub releases.
 
