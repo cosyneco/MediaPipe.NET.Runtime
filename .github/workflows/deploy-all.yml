@@ -235,7 +235,7 @@ jobs:
           path: ${{ github.workspace }}
 
       - name: Deploy to GitHub Package Registry
-        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/vignetteapp/index.json
+        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github
       
       - name: Deploy to NuGet
         run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
