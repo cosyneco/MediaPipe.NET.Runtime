@@ -21,7 +21,7 @@ MpReturnCode mp_ImageFrame__ui_i_i_ui(mediapipe::ImageFormat::Format format, int
   CATCH_ALL
 }
 
-MpReturnCode mp_ImageFrame__ui_i_i_i_Pui8_PF(mediapipe::ImageFormat::Format format, int width, int height, int width_step, uint8* pixel_data,
+MpReturnCode mp_ImageFrame__ui_i_i_i_Pui8(mediapipe::ImageFormat::Format format, int width, int height, int width_step, uint8* pixel_data,
                                              mediapipe::ImageFrame** image_frame_out) {
   TRY_ALL
     // Copy pixel data
