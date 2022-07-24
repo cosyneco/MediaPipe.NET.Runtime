@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Package References">
-    <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.21.3" />
   </ItemGroup>
   
   <ItemGroup Label="Documents">
