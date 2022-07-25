@@ -14,8 +14,7 @@ A few key points to note:
 - The namespace where all C# Protobuf sources belong is `Mediapipe.Net.Framework.Protobuf`, to match our MediaPipe.NET namespaces.
 - On Windows, the name of the native library is `mediapipe_c.dll` rather than `libmediapipe_c.dll` as it makes more sense on Windows and helps avoiding confusion when making bindings to it.
 - Since the native library can be shipped in CPU and GPU version, we ship both in their individual Nuget package: `Mediapipe.Net.Runtime.CPU` and `Mediapipe.Net.Runtime.GPU`. Since Mediapipe only supports GPU computation on Linux as of now, it also means that `Mediapipe.Net.Runtime.GPU` only bundles a Linux native library.
-- We changed the Bazel version from 4.2.1 (from MediaPipe 0.8.9 update) to 4.2.2.
-- We considerably changed the `build.py` script to adapt for this workflow. For example, some things are not downloaded as they are only relevant in Unity, and options such as `--protobuf` and `--install` have bee added to better control the build process.
+- We considerably changed the `build.py` script to adapt for this workflow. For example, some things are not downloaded as they are only relevant in Unity, and options such as `--protobuf` and `--install` have been added to better control the build process.
 
 ## Build instructions
 
