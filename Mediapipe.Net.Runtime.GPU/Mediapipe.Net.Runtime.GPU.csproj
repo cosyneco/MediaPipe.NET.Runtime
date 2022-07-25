@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Project">
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
     <AssemblyTitle>Mediapipe.Net.Runtime.GPU</AssemblyTitle>
     <AssemblyName>Mediapipe.Net.Runtime.GPU</AssemblyName>
@@ -10,11 +10,11 @@
   <PropertyGroup Label="Nuget">
     <IsPackable>true</IsPackable>
     <PackageId>Mediapipe.Net.Runtime.GPU</PackageId>
-    <Version>0.8.9.1</Version>
+    <Version>1.0.0-alpha1</Version>
     <Authors>homuler;Vignette</Authors>
     <PackageTags>Google;Mediapipe;Tracking;Media Analysis</PackageTags>
     <Title>Mediapipe.Net.Runtime.GPU</Title>
-    <Description>Native runtime libraries for MediaPipe.NET (GPU)</Description>
+    <Description>Native runtime libraries for MediaPipe.NET (GPU) (MediaPipe v0.8.10)</Description>
     <Copyright>2022 homuler and Vignette</Copyright>
     <RepositoryUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</RepositoryUrl>
     <PackageProjectUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</PackageProjectUrl>

@@ -9,11 +9,11 @@
 
   <PropertyGroup Label="Nuget">
     <PackageId>Mediapipe.Net.Framework.Protobuf</PackageId>
-    <Version>0.8.9.1</Version>
+    <Version>1.0.0-alpha1</Version>
     <Authors>Vignette</Authors>
     <PackageTags>Google;MediaPipe;Protobuf;</PackageTags>
     <Title>Mediapipe.Net.Framework.Protobuf</Title>
-    <Description>Auto-generated protobuf files for MediaPipe.NET.</Description>
+    <Description>Auto-generated protobuf files for MediaPipe.NET. (MediaPipe v0.8.10)</Description>
     <Copyright>2022 homuler and Vignette</Copyright>
     <PackageProjectUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
