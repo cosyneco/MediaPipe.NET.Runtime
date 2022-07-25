@@ -23,7 +23,7 @@ index 97d7f20..8d79ebc 100644
  import "mediapipe/framework/calculator.proto";
  
 diff --git a/mediapipe/calculators/audio/spectrogram_calculator.proto b/mediapipe/calculators/audio/spectrogram_calculator.proto
-index b721117..872465d 100644
+index 8e1e180..094a2e6 100644
 --- a/mediapipe/calculators/audio/spectrogram_calculator.proto
 +++ b/mediapipe/calculators/audio/spectrogram_calculator.proto
 @@ -15,6 +15,7 @@
@@ -83,7 +83,7 @@ index 3753ffb..758fa67 100644
  import "mediapipe/framework/calculator.proto";
  
 diff --git a/mediapipe/calculators/core/constant_side_packet_calculator.proto b/mediapipe/calculators/core/constant_side_packet_calculator.proto
-index 57f5dc5..bda8e10 100644
+index 4ad497b..5ae63a3 100644
 --- a/mediapipe/calculators/core/constant_side_packet_calculator.proto
 +++ b/mediapipe/calculators/core/constant_side_packet_calculator.proto
 @@ -15,6 +15,7 @@
@@ -382,8 +382,20 @@ index 6a5cfb0..b5444e2 100644
  
  import "mediapipe/framework/calculator.proto";
  
+diff --git a/mediapipe/calculators/tensor/audio_to_tensor_calculator.proto b/mediapipe/calculators/tensor/audio_to_tensor_calculator.proto
+index c63991f..93756d1 100644
+--- a/mediapipe/calculators/tensor/audio_to_tensor_calculator.proto
++++ b/mediapipe/calculators/tensor/audio_to_tensor_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
 diff --git a/mediapipe/calculators/tensor/image_to_tensor_calculator.proto b/mediapipe/calculators/tensor/image_to_tensor_calculator.proto
-index 0451dc5..5b60dbb 100644
+index 780ee80..9683a0c 100644
 --- a/mediapipe/calculators/tensor/image_to_tensor_calculator.proto
 +++ b/mediapipe/calculators/tensor/image_to_tensor_calculator.proto
 @@ -15,6 +15,7 @@
@@ -395,7 +407,7 @@ index 0451dc5..5b60dbb 100644
  import "mediapipe/framework/calculator.proto";
  import "mediapipe/gpu/gpu_origin.proto";
 diff --git a/mediapipe/calculators/tensor/inference_calculator.proto b/mediapipe/calculators/tensor/inference_calculator.proto
-index 04f8d14..d2ed025 100644
+index 4655280..2a9991e 100644
 --- a/mediapipe/calculators/tensor/inference_calculator.proto
 +++ b/mediapipe/calculators/tensor/inference_calculator.proto
 @@ -15,6 +15,7 @@
@@ -431,7 +443,7 @@ index 97c2154..59934b0 100644
  import "mediapipe/framework/calculator.proto";
  
 diff --git a/mediapipe/calculators/tensor/tensors_to_classification_calculator.proto b/mediapipe/calculators/tensor/tensors_to_classification_calculator.proto
-index 3934a61..641e4f7 100644
+index 32bc4b6..f4346fc 100644
 --- a/mediapipe/calculators/tensor/tensors_to_classification_calculator.proto
 +++ b/mediapipe/calculators/tensor/tensors_to_classification_calculator.proto
 @@ -17,6 +17,7 @@
@@ -441,9 +453,9 @@ index 3934a61..641e4f7 100644
 +option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
  
  import "mediapipe/framework/calculator.proto";
- 
+ import "mediapipe/util/label_map.proto";
 diff --git a/mediapipe/calculators/tensor/tensors_to_detections_calculator.proto b/mediapipe/calculators/tensor/tensors_to_detections_calculator.proto
-index 364eb5c..4d3de86 100644
+index c9d6b69..2f7ff05 100644
 --- a/mediapipe/calculators/tensor/tensors_to_detections_calculator.proto
 +++ b/mediapipe/calculators/tensor/tensors_to_detections_calculator.proto
 @@ -17,6 +17,7 @@
@@ -503,7 +515,7 @@ index 1196ca1..9bbe8d6 100644
  import "mediapipe/framework/packet_generator.proto";
  
 diff --git a/mediapipe/calculators/tensorflow/image_frame_to_tensor_calculator.proto b/mediapipe/calculators/tensorflow/image_frame_to_tensor_calculator.proto
-index 0e5a477..72a2692 100644
+index c48e6a8..5114c11 100644
 --- a/mediapipe/calculators/tensorflow/image_frame_to_tensor_calculator.proto
 +++ b/mediapipe/calculators/tensorflow/image_frame_to_tensor_calculator.proto
 @@ -15,6 +15,7 @@
@@ -863,7 +875,7 @@ index f482277..135ceb2 100644
  import "mediapipe/framework/calculator.proto";
  
 diff --git a/mediapipe/calculators/util/detection_label_id_to_text_calculator.proto b/mediapipe/calculators/util/detection_label_id_to_text_calculator.proto
-index 198ca4d..e6cc2ce 100644
+index eedc5e7..b7fefa9 100644
 --- a/mediapipe/calculators/util/detection_label_id_to_text_calculator.proto
 +++ b/mediapipe/calculators/util/detection_label_id_to_text_calculator.proto
 @@ -15,6 +15,7 @@
@@ -873,7 +885,7 @@ index 198ca4d..e6cc2ce 100644
 +option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
  
  import "mediapipe/framework/calculator.proto";
- 
+ import "mediapipe/util/label_map.proto";
 diff --git a/mediapipe/calculators/util/detections_to_rects_calculator.proto b/mediapipe/calculators/util/detections_to_rects_calculator.proto
 index d49eb6c..b73b29c 100644
 --- a/mediapipe/calculators/util/detections_to_rects_calculator.proto
@@ -1079,7 +1091,7 @@ index 63ec5f9..cc6037e 100644
  import "mediapipe/framework/calculator.proto";
  
 diff --git a/mediapipe/calculators/util/rect_to_render_data_calculator.proto b/mediapipe/calculators/util/rect_to_render_data_calculator.proto
-index 9b6d5e6..f9e7dbd 100644
+index 7611e3e..fede02e 100644
 --- a/mediapipe/calculators/util/rect_to_render_data_calculator.proto
 +++ b/mediapipe/calculators/util/rect_to_render_data_calculator.proto
 @@ -15,6 +15,7 @@
@@ -1343,10 +1355,10 @@ index 747e9c4..eb7396e 100644
  option java_package = "com.google.mediapipe.proto";
  option java_outer_classname = "CalculatorOptionsProto";
 diff --git a/mediapipe/framework/calculator_profile.proto b/mediapipe/framework/calculator_profile.proto
-index 723178a..df8a72e 100644
+index 066d433..39eea41 100644
 --- a/mediapipe/framework/calculator_profile.proto
 +++ b/mediapipe/framework/calculator_profile.proto
-@@ -19,6 +19,7 @@
+@@ -15,6 +15,7 @@
  syntax = "proto2";
  
  package mediapipe;
@@ -1403,7 +1415,7 @@ index 38414df..bf5715f 100644
  option java_package = "com.google.mediapipe.formats.annotation.proto";
  option java_outer_classname = "RasterizationProto";
 diff --git a/mediapipe/framework/formats/body_rig.proto b/mediapipe/framework/formats/body_rig.proto
-index 094b6cb..f299a9b 100644
+index 5420ccc..4b1829a 100644
 --- a/mediapipe/framework/formats/body_rig.proto
 +++ b/mediapipe/framework/formats/body_rig.proto
 @@ -15,6 +15,7 @@
@@ -1535,7 +1547,7 @@ index 6b57a4a..7e10850 100644
  option java_package = "com.google.mediapipe.formats.proto";
  option java_outer_classname = "RectProto";
 diff --git a/mediapipe/framework/formats/time_series_header.proto b/mediapipe/framework/formats/time_series_header.proto
-index a16f47d..f69bd10 100644
+index 6fd56c1..bd30c93 100644
 --- a/mediapipe/framework/formats/time_series_header.proto
 +++ b/mediapipe/framework/formats/time_series_header.proto
 @@ -20,6 +20,7 @@
@@ -1544,8 +1556,8 @@ index a16f47d..f69bd10 100644
  package mediapipe;
 +option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
  
- // Header for a uniformly sampled time series stream. Each Packet in
- // the stream is a Matrix, and each column is a (vector-valued) sample of
+ option objc_class_prefix = "MediaPipe";
+ 
 diff --git a/mediapipe/framework/mediapipe_options.proto b/mediapipe/framework/mediapipe_options.proto
 index 0ded959..b96384f 100644
 --- a/mediapipe/framework/mediapipe_options.proto
@@ -1583,7 +1595,7 @@ index 14f13a1..0333ec9 100644
  // Options used by a PacketGenerator.
  message PacketGeneratorOptions {
 diff --git a/mediapipe/framework/packet_test.proto b/mediapipe/framework/packet_test.proto
-index bccfd6b..3afb73d 100644
+index 3f10911..5badd93 100644
 --- a/mediapipe/framework/packet_test.proto
 +++ b/mediapipe/framework/packet_test.proto
 @@ -17,6 +17,7 @@
@@ -1592,8 +1604,8 @@ index bccfd6b..3afb73d 100644
  package mediapipe;
 +option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
  
- message PacketTestProto {
-   // Tests that the tags used to encode the timestamp do not interfere with
+ option objc_class_prefix = "MediaPipe";
+ 
 diff --git a/mediapipe/framework/status_handler.proto b/mediapipe/framework/status_handler.proto
 index 6e7ce83..a325e30 100644
 --- a/mediapipe/framework/status_handler.proto
@@ -1667,7 +1679,7 @@ index cbbe297..250439e 100644
  import "mediapipe/framework/mediapipe_options.proto";
  
 diff --git a/mediapipe/framework/test_calculators.proto b/mediapipe/framework/test_calculators.proto
-index af75dc1..b95c351 100644
+index 77dde80..978de2b 100644
 --- a/mediapipe/framework/test_calculators.proto
 +++ b/mediapipe/framework/test_calculators.proto
 @@ -19,6 +19,7 @@
@@ -1715,7 +1727,7 @@ index 50b19eb..59de7f5 100644
  import "mediapipe/framework/mediapipe_options.proto";
  
 diff --git a/mediapipe/framework/tool/calculator_graph_template.proto b/mediapipe/framework/tool/calculator_graph_template.proto
-index c2fc6aa..d8afedd 100644
+index 27153f3..df8d2a3 100644
 --- a/mediapipe/framework/tool/calculator_graph_template.proto
 +++ b/mediapipe/framework/tool/calculator_graph_template.proto
 @@ -1,6 +1,7 @@
@@ -1725,7 +1737,7 @@ index c2fc6aa..d8afedd 100644
 +option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
  
  import "mediapipe/framework/calculator.proto";
- import "mediapipe/framework/deps/proto_descriptor.proto";
+ import "mediapipe/framework/calculator_options.proto";
 diff --git a/mediapipe/framework/tool/field_data.proto b/mediapipe/framework/tool/field_data.proto
 index c8713c2..d3a6a86 100644
 --- a/mediapipe/framework/tool/field_data.proto
@@ -1775,7 +1787,7 @@ index 40660bb..cb6d801 100644
  import "mediapipe/framework/calculator.proto";
  
 diff --git a/mediapipe/framework/tool/switch_container.proto b/mediapipe/framework/tool/switch_container.proto
-index ac39950..37ab524 100644
+index a9c2d90..4acf8ac 100644
 --- a/mediapipe/framework/tool/switch_container.proto
 +++ b/mediapipe/framework/tool/switch_container.proto
 @@ -1,6 +1,7 @@
@@ -1942,6 +1954,18 @@ index 406cc9f..bddad31 100644
  
  message TimedModelMatrixProto {
    // 4x4 model matrix stored in ROW major order.
+diff --git a/mediapipe/modules/face_detection/face_detection.proto b/mediapipe/modules/face_detection/face_detection.proto
+index f5df8d6..de82a01 100644
+--- a/mediapipe/modules/face_detection/face_detection.proto
++++ b/mediapipe/modules/face_detection/face_detection.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/calculators/tensor/inference_calculator.proto";
+ import "mediapipe/framework/calculator_options.proto";
 diff --git a/mediapipe/modules/face_geometry/effect_renderer_calculator.proto b/mediapipe/modules/face_geometry/effect_renderer_calculator.proto
 index 6c23903..e9cda2d 100644
 --- a/mediapipe/modules/face_geometry/effect_renderer_calculator.proto
@@ -2146,8 +2170,20 @@ index c612112..609c6ed 100644
  
  message Color {
    optional int32 r = 1;
+diff --git a/mediapipe/util/label_map.proto b/mediapipe/util/label_map.proto
+index 79301d2..c2fd686 100644
+--- a/mediapipe/util/label_map.proto
++++ b/mediapipe/util/label_map.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Mapping a numerical class index output to a Knowledge Graph entity
+ // ID or any other string label representing this class. Optionally it is
 diff --git a/mediapipe/util/render_data.proto b/mediapipe/util/render_data.proto
-index 54a2d65..8edf788 100644
+index 0ff6b34..29428ec 100644
 --- a/mediapipe/util/render_data.proto
 +++ b/mediapipe/util/render_data.proto
 @@ -15,6 +15,7 @@
