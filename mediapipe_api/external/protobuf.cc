@@ -15,6 +15,7 @@ using google::protobuf::LogLevel;
 
 namespace {
 LogHandler* logHandler;
+google::protobuf::LogHandler* defaultLogHandler;
 }
 
 void HandleProtobufLog(LogLevel level, const char* filename, int line, const std::string& message) { logHandler(level, filename, line, message.c_str()); }
@@ -22,9 +23,29 @@ void HandleProtobufLog(LogLevel level, const char* filename, int line, const std
 MpReturnCode google_protobuf__SetLogHandler__PF(LogHandler* handler) {
   TRY
     logHandler = handler;
-    google::protobuf::SetLogHandler(&HandleProtobufLog);
+    auto prevLogHandler = google::protobuf::SetLogHandler(&HandleProtobufLog);
+
+    if (defaultLogHandler == nullptr) {
+      defaultLogHandler = prevLogHandler;
+    }
     RETURN_CODE(MpReturnCode::Success);
   CATCH_EXCEPTION
 }
 
-void mp_api_SerializedProtoArray__delete(mp_api::SerializedProto* serialized_proto_vector_data) { delete[] serialized_proto_vector_data; }
+MpReturnCode google_protobuf__ResetLogHandler() {
+  TRY
+    if (logHandler) {
+      google::protobuf::SetLogHandler(defaultLogHandler);
+    }
+    logHandler = nullptr;
+    RETURN_CODE(MpReturnCode::Success);
+  CATCH_EXCEPTION
+}
+
+void mp_api_SerializedProtoArray__delete(mp_api::SerializedProto* serialized_proto_vector_data, int size) {
+  auto serialized_proto = serialized_proto_vector_data;
+  for (auto i = 0; i < size; ++i) {
+    delete (serialized_proto++)->str;
+  }
+  delete[] serialized_proto_vector_data;
+}

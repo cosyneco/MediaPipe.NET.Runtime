@@ -18,12 +18,12 @@ bazel_skylib_workspace()
 
 load("@bazel_skylib//lib:versions.bzl", "versions")
 
-versions.check(minimum_bazel_version = "3.7.2")
+versions.check(minimum_bazel_version = "5.2.0")
 
 http_archive(
     name = "rules_pkg",
-    sha256 = "6b5969a7acd7b60c02f816773b06fcf32fbe8ba0c7919ccdc2df4f8fb923804a",
-    url = "https://github.com/bazelbuild/rules_pkg/releases/download/0.3.0/rules_pkg-0.3.0.tar.gz",
+    sha256 = "62eeb544ff1ef41d786e329e1536c1d541bb9bcad27ae984d57f18f314018e66",
+    url = "https://github.com/bazelbuild/rules_pkg/releases/download/0.6.0/rules_pkg-0.6.0.tar.gz",
 )
 
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
@@ -51,12 +51,6 @@ load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
 
 emsdk_emscripten_deps(emscripten_version = "2.0.22")
 
-new_local_repository(
-    name = "unity",
-    build_file = "@//third_party:unity.BUILD",
-    path = "/path/to/unity/2020.3.23f1",
-)
-
 # mediapipe
 http_archive(
     name = "com_google_mediapipe",
@@ -64,17 +58,16 @@ http_archive(
         "-p1",
     ],
     patches = [
-        "@//third_party:proto_namespace.diff",
         "@//third_party:mediapipe_opencv.diff",
         "@//third_party:mediapipe_workaround.diff",
         "@//third_party:mediapipe_visibility.diff",
         "@//third_party:mediapipe_model_path.diff",
         "@//third_party:mediapipe_extension.diff",
-        "@//third_party:mediapipe_emscripten_patch.diff",
+        # "@//third_party:mediapipe_emscripten_patch.diff",
     ],
-    sha256 = "54ce6da9f167d34fe53f928c804b3bc1fd1dd8fe2b32ca4bf0b63325d34680ac",
-    strip_prefix = "mediapipe-0.8.9",
-    urls = ["https://github.com/google/mediapipe/archive/v0.8.9.tar.gz"],
+    sha256 = "6b43a4304ca4aa3a698906e4b4ff696d698d0b788baffd8284c03632712b1020",
+    strip_prefix = "mediapipe-0.8.10",
+    urls = ["https://github.com/google/mediapipe/archive/v0.8.10.tar.gz"],
 )
 
 # ABSL cpp library lts_2021_03_24, patch 2.
@@ -101,10 +94,19 @@ http_archive(
 )
 
 http_archive(
+    name = "bazel_rules_dict",
+    strip_prefix = "bazel_rules_dict-0.1.1",
+    sha256 = "00adce0dc43d7ef39dcb7f59f8cc5644cde02766bb193f342ecff13d70f60b07",
+    urls = [
+        "https://github.com/homuler/bazel_rules_dict/archive/refs/tags/v0.1.1.tar.gz",
+    ],
+)
+
+http_archive(
     name = "rules_foreign_cc",
-    sha256 = "30c970bfaeda3485100c62b13093da2be2c70ed99ec8d30f4fac6dd37cb25f34",
-    strip_prefix = "rules_foreign_cc-0.6.0",
-    url = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.6.0.zip",
+    sha256 = "47f94195f144952c5a47245363d4a27b0e7ef3037a58ecf13aca8b5dbe3c2609",
+    strip_prefix = "rules_foreign_cc-feat-cache_entries_target",
+    url = "https://github.com/homuler/rules_foreign_cc/archive/feat/cache_entries_target.zip",
 )
 
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
@@ -120,12 +122,13 @@ http_archive(
     urls = ["https://github.com/google/googletest/archive/4ec4cd23f486bf70efcc5d2caa40f24368f752e3.zip"],
 )
 
-# Google Benchmark library.
+# Google Benchmark library v1.6.1 released on 2022-01-10.
 http_archive(
     name = "com_google_benchmark",
     build_file = "@com_google_mediapipe//third_party:benchmark.BUILD",
-    strip_prefix = "benchmark-main",
-    urls = ["https://github.com/google/benchmark/archive/main.zip"],
+    sha256 = "6132883bc8c9b0df5375b16ab520fac1a85dc9e4cf5be59480448ece74b278d4",
+    strip_prefix = "benchmark-1.6.1",
+    urls = ["https://github.com/google/benchmark/archive/refs/tags/v1.6.1.tar.gz"],
 )
 
 # gflags needed by glog
@@ -262,13 +265,13 @@ new_local_repository(
 new_local_repository(
     name = "macos_opencv",
     build_file = "@com_google_mediapipe//third_party:opencv_macos.BUILD",
-    path = "/usr/local/opt/opencv@3",
+    path = "/usr/local",
 )
 
 new_local_repository(
     name = "macos_arm64_opencv",
     build_file = "@com_google_mediapipe//third_party:opencv_macos.BUILD",
-    path = "/opt/homebrew/opt/opencv@3",
+    path = "/opt/homebrew",
 )
 
 new_local_repository(
@@ -324,20 +327,29 @@ http_archive(
     urls = ["https://github.com/nothings/stb/archive/b42009b3b9d4ca35bc703f5310eedc74f584be58.tar.gz"],
 )
 
-# You may run setup_android.sh to install Android SDK and NDK.
-# android_ndk_repository(
-#     name = "androidndk",
-#     # If you need to support older versions of Android, please specify the API Level.
-#     # Otherwise, some symbols in libmediapipe_jni.so cannot be resolved and `DllNotFoundException` will be thrown.
+load("//third_party:android_configure.bzl", "android_configure")
+android_configure(name = "local_config_android")
 
-#     # api_level = 21,
-# )
-
-# android_sdk_repository(
-#     name = "androidsdk",
-# )
+load("@local_config_android//:android_configure.bzl", "android_workspace")
+android_workspace()
 
 # iOS basic build deps.
+http_archive(
+    name = "build_bazel_apple_support",
+    patch_args = [
+        "-p1",
+    ],
+    patches = [
+        "@//third_party:build_bazel_apple_support_transitions.diff",
+    ],
+    sha256 = "df317473b5894dd8eb432240d209271ebc83c76bb30c55481374b36ddf1e4fd1",
+    url = "https://github.com/bazelbuild/apple_support/releases/download/1.0.0/apple_support.1.0.0.tar.gz",
+)
+
+load(
+    "@build_bazel_apple_support//lib:repositories.bzl",
+    "apple_support_dependencies",
+)
 
 http_archive(
     name = "build_bazel_rules_apple",
@@ -349,8 +361,8 @@ http_archive(
         "@com_google_mediapipe//third_party:build_bazel_rules_apple_bypass_test_runner_check.diff",
         "@//third_party:build_bazel_rules_apple_validation.diff",
     ],
-    sha256 = "77e8bf6fda706f420a55874ae6ee4df0c9d95da6c7838228b26910fc82eea5a2",
-    url = "https://github.com/bazelbuild/rules_apple/releases/download/0.32.0/rules_apple.0.32.0.tar.gz",
+    sha256 = "36072d4f3614d309d6a703da0dfe48684ec4c65a89611aeb9590b45af7a3e592",
+    url = "https://github.com/bazelbuild/rules_apple/releases/download/1.0.1/rules_apple.1.0.1.tar.gz",
 )
 
 load(
@@ -367,21 +379,6 @@ load(
 
 swift_rules_dependencies()
 
-http_archive(
-    name = "build_bazel_apple_support",
-    sha256 = "741366f79d900c11e11d8efd6cc6c66a31bfb2451178b58e0b5edc6f1db17b35",
-    urls = [
-        "https://github.com/bazelbuild/apple_support/releases/download/0.10.0/apple_support.0.10.0.tar.gz",
-    ],
-)
-
-load(
-    "@build_bazel_apple_support//lib:repositories.bzl",
-    "apple_support_dependencies",
-)
-
-apple_support_dependencies()
-
 # More iOS deps.
 
 http_archive(
@@ -390,64 +387,6 @@ http_archive(
     sha256 = "e3ac053813c989a88703556df4dc4466e424e30d32108433ed6beaec76ba4fdc",
     strip_prefix = "google-toolbox-for-mac-2.2.1",
     url = "https://github.com/google/google-toolbox-for-mac/archive/v2.2.1.zip",
-)
-
-# Maven dependencies.
-
-RULES_JVM_EXTERNAL_TAG = "4.0"
-
-RULES_JVM_EXTERNAL_SHA = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
-
-http_archive(
-    name = "rules_jvm_external",
-    sha256 = RULES_JVM_EXTERNAL_SHA,
-    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
-)
-
-load("@rules_jvm_external//:defs.bzl", "maven_install")
-
-# Important: there can only be one maven_install rule. Add new maven deps here.
-maven_install(
-    artifacts = [
-        "androidx.concurrent:concurrent-futures:1.0.0-alpha03",
-        "androidx.lifecycle:lifecycle-common:2.3.1",
-        "androidx.activity:activity:1.2.2",
-        "androidx.exifinterface:exifinterface:1.3.3",
-        "androidx.fragment:fragment:1.3.4",
-        "androidx.annotation:annotation:aar:1.1.0",
-        "androidx.appcompat:appcompat:aar:1.1.0-rc01",
-        "androidx.camera:camera-core:1.0.0-beta10",
-        "androidx.camera:camera-camera2:1.0.0-beta10",
-        "androidx.camera:camera-lifecycle:1.0.0-beta10",
-        "androidx.constraintlayout:constraintlayout:aar:1.1.3",
-        "androidx.core:core:aar:1.1.0-rc03",
-        "androidx.legacy:legacy-support-v4:aar:1.0.0",
-        "androidx.recyclerview:recyclerview:aar:1.1.0-beta02",
-        "androidx.test.espresso:espresso-core:3.1.1",
-        "com.github.bumptech.glide:glide:4.11.0",
-        "com.google.android.material:material:aar:1.0.0-rc01",
-        "com.google.auto.value:auto-value:1.8.1",
-        "com.google.auto.value:auto-value-annotations:1.8.1",
-        "com.google.code.findbugs:jsr305:latest.release",
-        "com.google.android.datatransport:transport-api:3.0.0",
-        "com.google.android.datatransport:transport-backend-cct:3.1.0",
-        "com.google.android.datatransport:transport-runtime:3.1.0",
-        "com.google.flogger:flogger-system-backend:0.6",
-        "com.google.flogger:flogger:0.6",
-        "com.google.guava:guava:27.0.1-android",
-        "com.google.guava:listenablefuture:1.0",
-        "junit:junit:4.12",
-        "org.hamcrest:hamcrest-library:1.3",
-    ],
-    fetch_sources = True,
-    repositories = [
-        "https://maven.google.com",
-        "https://dl.google.com/dl/android/maven2",
-        "https://repo1.maven.org/maven2",
-        "https://jcenter.bintray.com",
-    ],
-    version_conflict_policy = "pinned",
 )
 
 # Needed by TensorFlow
@@ -462,10 +401,10 @@ http_archive(
 )
 
 # Tensorflow repo should always go after the other external dependencies.
-# 2021-12-02
-_TENSORFLOW_GIT_COMMIT = "18a1dc0ba806dc023808531f0373d9ec068e64bf"
+# 2022-02-15
+_TENSORFLOW_GIT_COMMIT = "a3419acc751dfc19caf4d34a1594e1f76810ec58"
 
-_TENSORFLOW_SHA256 = "85b90416f7a11339327777bccd634de00ca0de2cf334f5f0727edcb11ff9289a"
+_TENSORFLOW_SHA256 = "b95b2a83632d4055742ae1a2dcc96b45da6c12a339462dbc76c8bca505308e3a"
 
 http_archive(
     name = "org_tensorflow",
@@ -474,10 +413,9 @@ http_archive(
     ],
     patches = [
         "@com_google_mediapipe//third_party:org_tensorflow_compatibility_fixes.diff",
-        "@com_google_mediapipe//third_party:org_tensorflow_objc_cxx17.diff",
         # Diff is generated with a script, don't update it manually.
         "@com_google_mediapipe//third_party:org_tensorflow_custom_ops.diff",
-        "@//third_party:tensorflow_xnnpack_emscripten_fixes.diff",
+        # "@//third_party:tensorflow_xnnpack_emscripten_fixes.diff",
     ],
     sha256 = _TENSORFLOW_SHA256,
     strip_prefix = "tensorflow-%s" % _TENSORFLOW_GIT_COMMIT,
