@@ -21,10 +21,13 @@ MpReturnCode mp_ImageFrame__ui_i_i_ui(mediapipe::ImageFormat::Format format, int
   CATCH_ALL
 }
 
-MpReturnCode mp_ImageFrame__ui_i_i_i_Pui8_PF(mediapipe::ImageFormat::Format format, int width, int height, int width_step, uint8* pixel_data, Deleter* deleter,
-                                             mediapipe::ImageFrame** image_frame_out) {
+MpReturnCode mp_ImageFrame__ui_i_i_i_Pui8(mediapipe::ImageFormat::Format format, int width, int height, int width_step, uint8* pixel_data, mediapipe::ImageFrame** image_frame_out) {
   TRY_ALL
-    *image_frame_out = new mediapipe::ImageFrame{format, width, height, width_step, pixel_data, deleter};
+    // Copy pixel data
+    mediapipe::ImageFrame* output_frame = new mediapipe::ImageFrame{};
+    output_frame->CopyPixelData(format, width,
+        height, width_step, pixel_data, mediapipe::ImageFrame::kDefaultAlignmentBoundary);
+    *image_frame_out = output_frame;
     RETURN_CODE(MpReturnCode::Success);
   CATCH_ALL
 }
