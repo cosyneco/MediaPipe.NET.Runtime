@@ -327,11 +327,11 @@ http_archive(
     urls = ["https://github.com/nothings/stb/archive/b42009b3b9d4ca35bc703f5310eedc74f584be58.tar.gz"],
 )
 
-load("//third_party:android_configure.bzl", "android_configure")
-android_configure(name = "local_config_android")
+# load("//third_party:android_configure.bzl", "android_configure")
+# android_configure(name = "local_config_android")
 
-load("@local_config_android//:android_configure.bzl", "android_workspace")
-android_workspace()
+# load("@local_config_android//:android_configure.bzl", "android_workspace")
+# android_workspace()
 
 # iOS basic build deps.
 http_archive(

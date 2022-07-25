@@ -137,7 +137,7 @@ class BuildCommand(Command):
         os.path.join(_BUILD_PATH, runtime_path(self.desktop)))
 
       if self.include_opencv_libs:
-        if self.opencv == 'cmake':
+        if self.opencv == 'cmake_static' or self.opencv == 'cmake_dynamic':
           self.console.warn('OpenCV objects are included in libmediapipe_c, so skip copying OpenCV library files')
         else:
           self._run_command(self._build_opencv_libs())
@@ -385,7 +385,7 @@ class Argument:
     build_command_parser.add_argument('--android', choices=['armv7', 'arm64', 'fat'])
     build_command_parser.add_argument('--ios', choices=['arm64'])
     build_command_parser.add_argument('--compilation_mode', '-c', choices=['fastbuild', 'opt', 'dbg'], default='opt')
-    build_command_parser.add_argument('--opencv', choices=['local', 'cmake'], default='local', help='Decide to which OpenCV to link for Desktop native libraries')
+    build_command_parser.add_argument('--opencv', choices=['local', 'cmake_static', 'cmake_dynamic'], default='local', help='Decide to which OpenCV to link for Desktop native libraries')
     build_command_parser.add_argument('--include_opencv_libs', action='store_true', help='Include OpenCV\'s native libraries for Desktop')
     build_command_parser.add_argument('--linkopt', '-l', action='append', help='Linker options')
     build_command_parser.add_argument('--protobuf', action=argparse.BooleanOptionalAction, default=True)
