@@ -63,7 +63,9 @@ typedef void LogHandler(int level, const char* filename, int line, const char* m
 
 MP_CAPI(MpReturnCode) google_protobuf__SetLogHandler__PF(LogHandler* handler);
 
-MP_CAPI(void) mp_api_SerializedProtoArray__delete(mp_api::SerializedProto* serialized_proto_vector_data);
+MP_CAPI(MpReturnCode) google_protobuf__ResetLogHandler();
+
+MP_CAPI(void) mp_api_SerializedProtoArray__delete(mp_api::SerializedProto* serialized_proto_vector_data, int size);
 
 }  // extern "C"
 

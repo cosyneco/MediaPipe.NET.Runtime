@@ -4,6 +4,7 @@
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("//mediapipe_api:csharp_proto_src.bzl", "csharp_proto_src")
 
 package(
@@ -77,6 +78,34 @@ cc_library(
     alwayslink = True,
 )
 
+cc_library(
+    name = "validated_graph_config",
+    srcs = ["validated_graph_config.cc"],
+    hdrs = ["validated_graph_config.h"],
+    deps = [
+        "//mediapipe_api:common",
+        "//mediapipe_api/external:protobuf",
+        "@com_google_mediapipe//mediapipe/framework:validated_graph_config",
+    ],
+    alwayslink = True,
+)
+
+pkg_files(
+    name = "proto_srcs",
+    srcs = [
+        ":calculator_cs",
+        ":calculator_options_cs",
+        ":calculator_profile_cs",
+        ":mediapipe_options_cs",
+        ":packet_factory_cs",
+        ":packet_generator_cs",
+        ":status_handler_cs",
+        ":stream_handler_cs",
+        ":thread_pool_executor_cs",
+    ],
+    prefix = "Framework",
+)
+
 csharp_proto_src(
     name = "calculator_cs",
     proto_src = "mediapipe/framework/calculator.proto",
@@ -88,6 +117,14 @@ csharp_proto_src(
 csharp_proto_src(
     name = "calculator_options_cs",
     proto_src = "mediapipe/framework/calculator_options.proto",
+    deps = [
+        "@com_google_mediapipe//mediapipe/framework:protos_src",
+    ],
+)
+
+csharp_proto_src(
+    name = "calculator_profile_cs",
+    proto_src = "mediapipe/framework/calculator_profile.proto",
     deps = [
         "@com_google_mediapipe//mediapipe/framework:protos_src",
     ],
@@ -128,6 +165,14 @@ csharp_proto_src(
 csharp_proto_src(
     name = "stream_handler_cs",
     proto_src = "mediapipe/framework/stream_handler.proto",
+    deps = [
+        "@com_google_mediapipe//mediapipe/framework:protos_src",
+    ],
+)
+
+csharp_proto_src(
+    name = "thread_pool_executor_cs",
+    proto_src = "mediapipe/framework/thread_pool_executor.proto",
     deps = [
         "@com_google_mediapipe//mediapipe/framework:protos_src",
     ],
