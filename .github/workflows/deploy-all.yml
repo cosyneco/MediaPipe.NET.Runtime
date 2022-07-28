@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Bazel directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: ${{ always() }}
         env:
           cache-name: bazel-cache
