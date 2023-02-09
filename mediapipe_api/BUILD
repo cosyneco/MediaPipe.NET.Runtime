@@ -195,6 +195,7 @@ cc_library(
         "//mediapipe_api/framework/formats:detection",
         "//mediapipe_api/framework/formats:image_frame",
         "//mediapipe_api/framework/formats:landmark",
+        "//mediapipe_api/framework/formats:matrix_data",
         "//mediapipe_api/framework/formats:rect",
         "//mediapipe_api/framework/port:logging",
         "//mediapipe_api/graphs/object_detection_3d/calculators:model_matrix",
@@ -447,6 +448,7 @@ cc_library(
         ],
         "//conditions:default": [
             "@com_google_mediapipe//mediapipe/graphs/hair_segmentation:mobile_calculators",
+            "@com_google_mediapipe//mediapipe/calculators/image:color_convert_calculator",
         ],
     }),
 )
@@ -673,6 +675,8 @@ pkg_zip(
         "//mediapipe_api/gpu:proto_srcs",
         "//mediapipe_api/graphs/instant_motion_tracking/calculators:proto_srcs",
         "//mediapipe_api/graphs/object_detection_3d/calculators:proto_srcs",
+        "//mediapipe_api/modules/face_detection:proto_srcs",
+        "//mediapipe_api/modules/face_geometry:proto_srcs",
         "//mediapipe_api/modules/face_geometry/protos:proto_srcs",
         "//mediapipe_api/modules/holistic_landmark/calculators:proto_srcs",
         "//mediapipe_api/modules/objectron/calculators:proto_srcs",
