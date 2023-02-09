@@ -303,15 +303,6 @@ new_local_repository(
     path = "/usr",
 )
 
-http_archive(
-    name = "android_opencv",
-    build_file = "@com_google_mediapipe//third_party:opencv_android.BUILD",
-    sha256 = "cdb0e190c3734edd4052a3535d9e4310af912a9f70a421b1621711942a1028d5",
-    strip_prefix = "OpenCV-android-sdk",
-    type = "zip",
-    url = "https://github.com/opencv/opencv/releases/download/3.4.3/opencv-3.4.3-android-sdk.zip",
-)
-
 # After OpenCV 3.2.0, the pre-compiled opencv2.framework has google protobuf symbols, which will
 # trigger duplicate symbol errors in the linking stage of building a mediapipe ios app.
 # To get a higher version of OpenCV for iOS, opencv2.framework needs to be built from source with
@@ -337,14 +328,6 @@ http_archive(
     strip_prefix = "stb-b42009b3b9d4ca35bc703f5310eedc74f584be58",
     urls = ["https://github.com/nothings/stb/archive/b42009b3b9d4ca35bc703f5310eedc74f584be58.tar.gz"],
 )
-
-load("//third_party:android_configure.bzl", "android_configure")
-
-android_configure(name = "local_config_android")
-
-load("@local_config_android//:android_configure.bzl", "android_workspace")
-
-android_workspace()
 
 # Load Zlib before initializing TensorFlow and the iOS build rules to guarantee
 # that the target @zlib//:mini_zlib is available
