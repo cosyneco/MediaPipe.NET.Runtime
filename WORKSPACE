@@ -30,27 +30,6 @@ load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 
 rules_pkg_dependencies()
 
-http_archive(
-    name = "emsdk",
-    sha256 = "8978a12172028542c1c4007745e5421cb018842ebf77dfc0f8555d1ae9b09234",
-    strip_prefix = "emsdk-8e7b714a0b2137caca4a212c003f4eb9b9ba9667/bazel",
-    url = "https://github.com/emscripten-core/emsdk/archive/8e7b714a0b2137caca4a212c003f4eb9b9ba9667.tar.gz",
-    patch_args = [
-        "-p1",
-    ],
-    patches = [
-        "@//third_party:emsdk_bitcode_support.diff",
-    ],
-)
-
-load("@emsdk//:deps.bzl", emsdk_deps = "deps")
-
-emsdk_deps()
-
-load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
-
-emsdk_emscripten_deps(emscripten_version = "2.0.22")
-
 # mediapipe
 http_archive(
     name = "com_google_mediapipe",
@@ -58,7 +37,6 @@ http_archive(
         "-p1",
     ],
     patches = [
-        "@//third_party:proto_namespace.diff",
         "@//third_party:mediapipe_opencv.diff",
         "@//third_party:mediapipe_workaround.diff",
         "@//third_party:mediapipe_visibility.diff",
@@ -66,9 +44,9 @@ http_archive(
         "@//third_party:mediapipe_extension.diff",
         # "@//third_party:mediapipe_emscripten_patch.diff",
     ],
-    sha256 = "6b43a4304ca4aa3a698906e4b4ff696d698d0b788baffd8284c03632712b1020",
-    strip_prefix = "mediapipe-0.8.10",
-    urls = ["https://github.com/google/mediapipe/archive/v0.8.10.tar.gz"],
+    sha256 = "437de7632f37b95424106d689f9722c280a571fa452675a22c708cb851395ea7",
+    strip_prefix = "mediapipe-0.9.1",
+    urls = ["https://github.com/google/mediapipe/archive/v0.9.1.tar.gz"],
 )
 
 # ABSL cpp library lts_2021_03_24, patch 2.
@@ -81,10 +59,10 @@ http_archive(
     patches = [
         "@com_google_mediapipe//third_party:com_google_absl_f863b622fe13612433fdf43f76547d5edda0c93001.diff",
     ],
-    sha256 = "59b862f50e710277f8ede96f083a5bb8d7c9595376146838b9580be90374ee1f",
-    strip_prefix = "abseil-cpp-20210324.2",
+    sha256 = "91ac87d30cc6d79f9ab974c51874a704de9c2647c40f6932597329a282217ba8",
+    strip_prefix = "abseil-cpp-20220623.1",
     urls = [
-        "https://github.com/abseil/abseil-cpp/archive/refs/tags/20210324.2.tar.gz",
+        "https://github.com/abseil/abseil-cpp/archive/refs/tags/20220623.1.tar.gz",
     ],
 )
 
@@ -96,8 +74,8 @@ http_archive(
 
 http_archive(
     name = "bazel_rules_dict",
-    strip_prefix = "bazel_rules_dict-0.1.1",
     sha256 = "00adce0dc43d7ef39dcb7f59f8cc5644cde02766bb193f342ecff13d70f60b07",
+    strip_prefix = "bazel_rules_dict-0.1.1",
     urls = [
         "https://github.com/homuler/bazel_rules_dict/archive/refs/tags/v0.1.1.tar.gz",
     ],
@@ -204,28 +182,60 @@ http_archive(
     urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.19.1.tar.gz"],
 )
 
+load("@com_google_mediapipe//third_party/flatbuffers:workspace.bzl", flatbuffers = "repo")
+
+flatbuffers()
+
 http_archive(
     name = "com_google_audio_tools",
+    repo_mapping = {"@com_github_glog_glog": "@com_github_glog_glog_no_gflags"},
     strip_prefix = "multichannel-audio-tools-master",
     urls = ["https://github.com/google/multichannel-audio-tools/archive/master.zip"],
 )
 
-# 2020-07-09
 http_archive(
-    name = "pybind11_bazel",
-    sha256 = "75922da3a1bdb417d820398eb03d4e9bd067c4905a4246d35a44c01d62154d91",
-    strip_prefix = "pybind11_bazel-203508e14aab7309892a1c5f7dd05debda22d9a5",
-    urls = ["https://github.com/pybind/pybind11_bazel/archive/203508e14aab7309892a1c5f7dd05debda22d9a5.zip"],
+    name = "pffft",
+    build_file = "@com_google_mediapipe//third_party:pffft.BUILD",
+    strip_prefix = "jpommier-pffft-7c3b5a7dc510",
+    urls = ["https://bitbucket.org/jpommier/pffft/get/7c3b5a7dc510.zip"],
 )
 
-# Point to the commit that deprecates the usage of Eigen::MappedSparseMatrix.
+# sentencepiece
 http_archive(
-    name = "pybind11",
-    build_file = "@pybind11_bazel//:pybind11.BUILD",
-    sha256 = "b971842fab1b5b8f3815a2302331782b7d137fef0e06502422bc4bc360f4956c",
-    strip_prefix = "pybind11-70a58c577eaf067748c2ec31bfd0b0a614cffba6",
+    name = "com_google_sentencepiece",
+    patch_args = ["-p1"],
+    patches = [
+        "@com_google_mediapipe//third_party:com_google_sentencepiece_no_gflag_no_gtest.diff",
+    ],
+    repo_mapping = {"@com_google_glog": "@com_github_glog_glog_no_gflags"},
+    sha256 = "c05901f30a1d0ed64cbcf40eba08e48894e1b0e985777217b7c9036cac631346",
+    strip_prefix = "sentencepiece-1.0.0",
     urls = [
-        "https://github.com/pybind/pybind11/archive/70a58c577eaf067748c2ec31bfd0b0a614cffba6.zip",
+        "https://github.com/google/sentencepiece/archive/1.0.0.zip",
+    ],
+)
+
+http_archive(
+    name = "org_tensorflow_text",
+    patch_args = ["-p1"],
+    patches = [
+        "@com_google_mediapipe//third_party:tensorflow_text_remove_tf_deps.diff",
+        "@com_google_mediapipe//third_party:tensorflow_text_a0f49e63.diff",
+    ],
+    repo_mapping = {"@com_google_re2": "@com_googlesource_code_re2"},
+    sha256 = "f64647276f7288d1b1fe4c89581d51404d0ce4ae97f2bcc4c19bd667549adca8",
+    strip_prefix = "text-2.2.0",
+    urls = [
+        "https://github.com/tensorflow/text/archive/v2.2.0.zip",
+    ],
+)
+
+http_archive(
+    name = "com_googlesource_code_re2",
+    sha256 = "e06b718c129f4019d6e7aa8b7631bee38d3d450dd980246bfaf493eb7db67868",
+    strip_prefix = "re2-fe4a310131c37f9a7e7f7816fa6ce2a8b27d65a8",
+    urls = [
+        "https://github.com/google/re2/archive/fe4a310131c37f9a7e7f7816fa6ce2a8b27d65a8.tar.gz",
     ],
 )
 
@@ -293,15 +303,6 @@ new_local_repository(
     path = "/usr",
 )
 
-http_archive(
-    name = "android_opencv",
-    build_file = "@com_google_mediapipe//third_party:opencv_android.BUILD",
-    sha256 = "cdb0e190c3734edd4052a3535d9e4310af912a9f70a421b1621711942a1028d5",
-    strip_prefix = "OpenCV-android-sdk",
-    type = "zip",
-    url = "https://github.com/opencv/opencv/releases/download/3.4.3/opencv-3.4.3-android-sdk.zip",
-)
-
 # After OpenCV 3.2.0, the pre-compiled opencv2.framework has google protobuf symbols, which will
 # trigger duplicate symbol errors in the linking stage of building a mediapipe ios app.
 # To get a higher version of OpenCV for iOS, opencv2.framework needs to be built from source with
@@ -328,28 +329,38 @@ http_archive(
     urls = ["https://github.com/nothings/stb/archive/b42009b3b9d4ca35bc703f5310eedc74f584be58.tar.gz"],
 )
 
-# load("//third_party:android_configure.bzl", "android_configure")
-# android_configure(name = "local_config_android")
-
-# load("@local_config_android//:android_configure.bzl", "android_workspace")
-# android_workspace()
-
-# iOS basic build deps.
+# Load Zlib before initializing TensorFlow and the iOS build rules to guarantee
+# that the target @zlib//:mini_zlib is available
 http_archive(
-    name = "build_bazel_apple_support",
+    name = "zlib",
+    build_file = "@com_google_mediapipe//third_party:zlib.BUILD",
     patch_args = [
         "-p1",
     ],
     patches = [
-        "@//third_party:build_bazel_apple_support_transitions.diff",
+        "@com_google_mediapipe//third_party:zlib.diff",
     ],
-    sha256 = "df317473b5894dd8eb432240d209271ebc83c76bb30c55481374b36ddf1e4fd1",
-    url = "https://github.com/bazelbuild/apple_support/releases/download/1.0.0/apple_support.1.0.0.tar.gz",
+    sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
+    strip_prefix = "zlib-1.2.11",
+    urls = [
+        "http://mirror.bazel.build/zlib.net/fossils/zlib-1.2.11.tar.gz",
+        "http://zlib.net/fossils/zlib-1.2.11.tar.gz",  # 2017-01-15
+    ],
 )
 
-load(
-    "@build_bazel_apple_support//lib:repositories.bzl",
-    "apple_support_dependencies",
+# iOS basic build deps.
+http_archive(
+    name = "build_bazel_apple_support",
+    sha256 = "f4fdf5c9b42b92ea12f229b265d74bb8cedb8208ca7a445b383c9f866cf53392",
+    patch_args = [
+        "-p1",
+    ],
+    patches = [
+        "@//third_party:build_bazel_apple_support_transitions.diff"
+    ],
+    urls = [
+        "https://github.com/bazelbuild/apple_support/releases/download/1.3.1/apple_support.1.3.1.tar.gz",
+    ],
 )
 
 http_archive(
@@ -362,8 +373,8 @@ http_archive(
         "@com_google_mediapipe//third_party:build_bazel_rules_apple_bypass_test_runner_check.diff",
         "@//third_party:build_bazel_rules_apple_validation.diff",
     ],
-    sha256 = "36072d4f3614d309d6a703da0dfe48684ec4c65a89611aeb9590b45af7a3e592",
-    url = "https://github.com/bazelbuild/rules_apple/releases/download/1.0.1/rules_apple.1.0.1.tar.gz",
+    sha256 = "f94e6dddf74739ef5cb30f000e13a2a613f6ebfa5e63588305a71fce8a8a9911",
+    url = "https://github.com/bazelbuild/rules_apple/releases/download/1.1.3/rules_apple.1.1.3.tar.gz",
 )
 
 load(
@@ -379,6 +390,20 @@ load(
 )
 
 swift_rules_dependencies()
+
+load(
+    "@build_bazel_rules_swift//swift:extras.bzl",
+    "swift_rules_extra_dependencies",
+)
+
+swift_rules_extra_dependencies()
+
+load(
+    "@build_bazel_apple_support//lib:repositories.bzl",
+    "apple_support_dependencies",
+)
+
+apple_support_dependencies()
 
 # More iOS deps.
 
@@ -401,11 +426,11 @@ http_archive(
     ],
 )
 
-# Tensorflow repo should always go after the other external dependencies.
-# 2022-02-15
-_TENSORFLOW_GIT_COMMIT = "a3419acc751dfc19caf4d34a1594e1f76810ec58"
+# TensorFlow repo should always go after the other external dependencies.
+# TF on 2022-08-10.
+_TENSORFLOW_GIT_COMMIT = "af1d5bc4fbb66d9e6cc1cf89503014a99233583b"
 
-_TENSORFLOW_SHA256 = "b95b2a83632d4055742ae1a2dcc96b45da6c12a339462dbc76c8bca505308e3a"
+_TENSORFLOW_SHA256 = "f85a5443264fc58a12d136ca6a30774b5bc25ceaf7d114d97f252351b3c3a2cb"
 
 http_archive(
     name = "org_tensorflow",
@@ -450,3 +475,81 @@ libedgetpu_dependencies()
 load("@coral_crosstool//:configure.bzl", "cc_crosstool")
 
 cc_crosstool(name = "crosstool")
+
+# Node dependencies
+http_archive(
+    name = "build_bazel_rules_nodejs",
+    sha256 = "5aae76dced38f784b58d9776e4ab12278bc156a9ed2b1d9fcd3e39921dc88fda",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.7.1/rules_nodejs-5.7.1.tar.gz"],
+)
+
+load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
+
+build_bazel_rules_nodejs_dependencies()
+
+# fetches nodejs, npm, and yarn
+load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
+
+node_repositories()
+
+yarn_install(
+    name = "npm",
+    package_json = "@com_google_mediapipe//:package.json",
+    yarn_lock = "@com_google_mediapipe//:yarn.lock",
+)
+
+# Protobuf for Node dependencies
+http_archive(
+    name = "rules_proto_grpc",
+    sha256 = "bbe4db93499f5c9414926e46f9e35016999a4e9f6e3522482d3760dc61011070",
+    strip_prefix = "rules_proto_grpc-4.2.0",
+    urls = ["https://github.com/rules-proto-grpc/rules_proto_grpc/archive/4.2.0.tar.gz"],
+)
+
+http_archive(
+    name = "com_google_protobuf_javascript",
+    sha256 = "35bca1729532b0a77280bf28ab5937438e3dcccd6b31a282d9ae84c896b6f6e3",
+    strip_prefix = "protobuf-javascript-3.21.2",
+    urls = ["https://github.com/protocolbuffers/protobuf-javascript/archive/refs/tags/v3.21.2.tar.gz"],
+)
+
+load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_repos", "rules_proto_grpc_toolchains")
+
+rules_proto_grpc_toolchains()
+
+rules_proto_grpc_repos()
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
+rules_proto_dependencies()
+
+rules_proto_toolchains()
+
+load("@com_google_mediapipe//third_party:external_files.bzl", "external_files")
+
+external_files()
+
+load("@com_google_mediapipe//third_party:wasm_files.bzl", "wasm_files")
+
+wasm_files()
+
+http_archive(
+    name = "emsdk",
+    patch_args = [
+        "-p1",
+    ],
+    patches = [
+        "@//third_party:emsdk_bitcode_support.diff",
+    ],
+    sha256 = "8978a12172028542c1c4007745e5421cb018842ebf77dfc0f8555d1ae9b09234",
+    strip_prefix = "emsdk-8e7b714a0b2137caca4a212c003f4eb9b9ba9667/bazel",
+    url = "https://github.com/emscripten-core/emsdk/archive/8e7b714a0b2137caca4a212c003f4eb9b9ba9667.tar.gz",
+)
+
+load("@emsdk//:deps.bzl", emsdk_deps = "deps")
+
+emsdk_deps()
+
+load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
+
+emsdk_emscripten_deps(emscripten_version = "2.0.22")
