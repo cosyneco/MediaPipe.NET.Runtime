@@ -46,13 +46,6 @@ jobs:
         with:
           dotnet-version: "6.0.x"
 
-      - name: Setup Android NDK
-        uses: nttld/setup-ndk@v1
-        id: setup-ndk
-        with:
-          ndk-version: r25c
-          local-cache: true
-
       - name: Setup Python 3.10
         uses: actions/setup-python@v2
         with:
