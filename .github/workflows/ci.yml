@@ -31,7 +31,7 @@ jobs:
           key: Linux-${{ env.cache-name }}-dev
 
       - name: Cache build directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: build-cache
         with:
@@ -103,7 +103,7 @@ jobs:
           #   cache-path: ~/_bzl
     steps:
       - name: Cache Bazel directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: ${{ always() }}
         env:
           cache-name: bazel-cache
@@ -112,7 +112,7 @@ jobs:
           key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Cache build directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: build-cache
         with:
@@ -120,14 +120,14 @@ jobs:
           key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup EGL (Linux, GPU)
         if: ${{ matrix.os.name == 'Linux_GPU' }}
         run: sudo apt update && sudo apt install libglfw3-dev libgles2-mesa-dev
 
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "6.0.x"
 
@@ -186,43 +186,43 @@ jobs:
           - GPU
     steps:
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "6.0.x"
 
       - name: Setup Python 3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: "3.10"
           architecture: "x64"
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download Windows build artifacts
         if: ${{ matrix.comp == 'CPU' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Build.Windows
           path: build/
             
       - name: Download Linux (CPU) build artifacts
         if: ${{ matrix.comp == 'CPU' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Build.Linux_CPU
           path: build/
 
       - name: Download Linux (GPU) build artifacts
         if: ${{ matrix.comp == 'GPU' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: Build.Linux_GPU
           path: build/
 
       # - name: Download MacOS build artifacts
       #   if: ${{ matrix.comp == 'CPU' }}
-      #   uses: actions/download-artifact@v2
+      #   uses: actions/download-artifact@v3
       #   with:
       #     name: Build.MacOS
       #     path: build/
@@ -240,7 +240,7 @@ jobs:
         run: dotnet pack ${{ env.PROJECT_NAME }}.${{ matrix.comp }} --no-restore --no-build --configuration Release --output ${{ env.PACKAGE_OUTDIR }}
 
       - name: Upload Nuget package artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
