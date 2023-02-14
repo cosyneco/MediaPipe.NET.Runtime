@@ -24,6 +24,23 @@ While waiting, you can look at the [MediaPipeUnityPlugin installation guide](htt
 
 You can also check [some of our CI files](https://github.com/vignetteapp/MediaPipe.NET.Runtime/blob/ci/.github/workflows/ci.yml) and look at the commands used for something more accurate but less commented.
 
+### Generating new patchfiles for `third_party`
+
+To generate new patches for `third_party` (especially when dealing with Protobuf namespaces), you must clone the mediapipe repository that corresponds to the version being tagged.
+
+```sh
+#  for example we will be cloning 0.9.1
+$ git clone https://github.com/google/mediapipe -b 0.9.1
+```
+Then cd to the `mediapipe` folder and make your changes. Once satisfied, generate your patchfile using `git` like so:
+
+```sh
+$ git diff -p --output=patch.diff
+```
+Keep in mind patches must be limited to the area they're supposed to modify. Follow the format in `third_party` if possible.
+
+If you're editing an existing patch, just replace the file like so, however, if you're making a new patch for use in MP.NET, make sure you add it to the `WORKSPACE` file under `patches`.
+
 ## License
 
 This repository is licensed under the MIT license. See [LICENSE](LICENSE) for details.
