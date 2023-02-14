@@ -70,6 +70,18 @@ index 1a273edb..cf06ebf4 100644
  
  import "mediapipe/framework/calculator.proto";
  
+diff --git a/mediapipe/calculators/core/clip_vector_size_calculator.proto b/mediapipe/calculators/core/clip_vector_size_calculator.proto
+index 5dea660d..13845922 100644
+--- a/mediapipe/calculators/core/clip_vector_size_calculator.proto
++++ b/mediapipe/calculators/core/clip_vector_size_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
 diff --git a/mediapipe/calculators/core/concatenate_vector_calculator.proto b/mediapipe/calculators/core/concatenate_vector_calculator.proto
 index bddb8af9..ee7bc8d5 100644
 --- a/mediapipe/calculators/core/concatenate_vector_calculator.proto
@@ -231,6 +243,30 @@ index a787437d..5ee758cc 100644
 --- a/mediapipe/calculators/image/bilateral_filter_calculator.proto
 +++ b/mediapipe/calculators/image/bilateral_filter_calculator.proto
 @@ -2,6 +2,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/calculators/image/feature_detector_calculator.proto b/mediapipe/calculators/image/feature_detector_calculator.proto
+index 7bff2357..e97548a0 100644
+--- a/mediapipe/calculators/image/feature_detector_calculator.proto
++++ b/mediapipe/calculators/image/feature_detector_calculator.proto
+@@ -2,6 +2,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/calculators/image/image_clone_calculator.proto b/mediapipe/calculators/image/image_clone_calculator.proto
+index 6fa05dcc..e79fe131 100644
+--- a/mediapipe/calculators/image/image_clone_calculator.proto
++++ b/mediapipe/calculators/image/image_clone_calculator.proto
+@@ -15,6 +15,7 @@
  syntax = "proto2";
  
  package mediapipe;
@@ -1342,6 +1378,18 @@ index a3a7af3a..1feeae28 100644
  
  import "mediapipe/framework/calculator.proto";
  
+diff --git a/mediapipe/calculators/video/tool/flow_quantizer_model.proto b/mediapipe/calculators/video/tool/flow_quantizer_model.proto
+index 02f3fc11..65580a9c 100644
+--- a/mediapipe/calculators/video/tool/flow_quantizer_model.proto
++++ b/mediapipe/calculators/video/tool/flow_quantizer_model.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Message storing min value and max value for normalization in all channels.
+ message QuantizerModelData {
 diff --git a/mediapipe/calculators/video/tracked_detection_manager_calculator.proto b/mediapipe/calculators/video/tracked_detection_manager_calculator.proto
 index 44624258..3546365c 100644
 --- a/mediapipe/calculators/video/tracked_detection_manager_calculator.proto
@@ -1365,4 +1413,1156 @@ index 8e87ce99..7d875e55 100644
 +option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
  
  import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/calculator.proto b/mediapipe/framework/calculator.proto
+index eecd033c..0d4a539e 100644
+--- a/mediapipe/framework/calculator.proto
++++ b/mediapipe/framework/calculator.proto
+@@ -18,6 +18,7 @@
+ syntax = "proto3";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import public "mediapipe/framework/calculator_options.proto";
+ 
+diff --git a/mediapipe/framework/calculator_contract_test.proto b/mediapipe/framework/calculator_contract_test.proto
+index d86d99fc..65ed451a 100644
+--- a/mediapipe/framework/calculator_contract_test.proto
++++ b/mediapipe/framework/calculator_contract_test.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/calculator_options.proto b/mediapipe/framework/calculator_options.proto
+index 747e9c4a..eb7396ed 100644
+--- a/mediapipe/framework/calculator_options.proto
++++ b/mediapipe/framework/calculator_options.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.proto";
+ option java_outer_classname = "CalculatorOptionsProto";
+diff --git a/mediapipe/framework/calculator_profile.proto b/mediapipe/framework/calculator_profile.proto
+index 082d0a86..c693871a 100644
+--- a/mediapipe/framework/calculator_profile.proto
++++ b/mediapipe/framework/calculator_profile.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/deps/proto_descriptor.proto b/mediapipe/framework/deps/proto_descriptor.proto
+index 868e1423..bbb77524 100644
+--- a/mediapipe/framework/deps/proto_descriptor.proto
++++ b/mediapipe/framework/deps/proto_descriptor.proto
+@@ -1,6 +1,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.proto";
+ option java_outer_classname = "FieldDescriptorProtoProto";
+diff --git a/mediapipe/framework/formats/affine_transform_data.proto b/mediapipe/framework/formats/affine_transform_data.proto
+index f5b47468..1cdf5e27 100644
+--- a/mediapipe/framework/formats/affine_transform_data.proto
++++ b/mediapipe/framework/formats/affine_transform_data.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Proto for serializing Vector2 data
+ message Vector2Data {
+diff --git a/mediapipe/framework/formats/annotation/locus.proto b/mediapipe/framework/formats/annotation/locus.proto
+index 040ffec8..dd4b0a36 100644
+--- a/mediapipe/framework/formats/annotation/locus.proto
++++ b/mediapipe/framework/formats/annotation/locus.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/formats/annotation/rasterization.proto";
+ 
+diff --git a/mediapipe/framework/formats/annotation/rasterization.proto b/mediapipe/framework/formats/annotation/rasterization.proto
+index 38414dff..bf5715fe 100644
+--- a/mediapipe/framework/formats/annotation/rasterization.proto
++++ b/mediapipe/framework/formats/annotation/rasterization.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.formats.annotation.proto";
+ option java_outer_classname = "RasterizationProto";
+diff --git a/mediapipe/framework/formats/body_rig.proto b/mediapipe/framework/formats/body_rig.proto
+index 5420ccc1..4b1829ab 100644
+--- a/mediapipe/framework/formats/body_rig.proto
++++ b/mediapipe/framework/formats/body_rig.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Joint of a 3D human model (e.g. elbow, knee, wrist). Contains 3D rotation of
+ // the joint and its visibility.
+diff --git a/mediapipe/framework/formats/classification.proto b/mediapipe/framework/formats/classification.proto
+index 7efd9074..3187d28a 100644
+--- a/mediapipe/framework/formats/classification.proto
++++ b/mediapipe/framework/formats/classification.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.formats.proto";
+ option java_outer_classname = "ClassificationProto";
+diff --git a/mediapipe/framework/formats/detection.proto b/mediapipe/framework/formats/detection.proto
+index 3e2d067b..5a3e4af1 100644
+--- a/mediapipe/framework/formats/detection.proto
++++ b/mediapipe/framework/formats/detection.proto
+@@ -21,6 +21,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/formats/location_data.proto";
+ 
+diff --git a/mediapipe/framework/formats/image_file_properties.proto b/mediapipe/framework/formats/image_file_properties.proto
+index 0d3cd62b..2d97462b 100644
+--- a/mediapipe/framework/formats/image_file_properties.proto
++++ b/mediapipe/framework/formats/image_file_properties.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // A list of properties extracted from EXIF metadata from an image file.
+ message ImageFileProperties {
+diff --git a/mediapipe/framework/formats/image_format.proto b/mediapipe/framework/formats/image_format.proto
+index 61e004ac..3ba6964d 100644
+--- a/mediapipe/framework/formats/image_format.proto
++++ b/mediapipe/framework/formats/image_format.proto
+@@ -22,6 +22,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.formats.proto";
+ option java_outer_classname = "ImageFormatProto";
+diff --git a/mediapipe/framework/formats/landmark.proto b/mediapipe/framework/formats/landmark.proto
+index 151dff23..4aa8c50b 100644
+--- a/mediapipe/framework/formats/landmark.proto
++++ b/mediapipe/framework/formats/landmark.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.formats.proto";
+ option java_outer_classname = "LandmarkProto";
+diff --git a/mediapipe/framework/formats/location_data.proto b/mediapipe/framework/formats/location_data.proto
+index 3edd5420..6d9c37a0 100644
+--- a/mediapipe/framework/formats/location_data.proto
++++ b/mediapipe/framework/formats/location_data.proto
+@@ -20,6 +20,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/formats/annotation/rasterization.proto";
+ 
+diff --git a/mediapipe/framework/formats/matrix_data.proto b/mediapipe/framework/formats/matrix_data.proto
+index d4aa457a..3c781f64 100644
+--- a/mediapipe/framework/formats/matrix_data.proto
++++ b/mediapipe/framework/formats/matrix_data.proto
+@@ -20,6 +20,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.formats.proto";
+ option java_outer_classname = "MatrixDataProto";
+diff --git a/mediapipe/framework/formats/motion/optical_flow_field_data.proto b/mediapipe/framework/formats/motion/optical_flow_field_data.proto
+index c2dda97c..dd27cd26 100644
+--- a/mediapipe/framework/formats/motion/optical_flow_field_data.proto
++++ b/mediapipe/framework/formats/motion/optical_flow_field_data.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message OpticalFlowFieldData {
+   optional int32 width = 1;
+diff --git a/mediapipe/framework/formats/object_detection/anchor.proto b/mediapipe/framework/formats/object_detection/anchor.proto
+index 8eeed489..7c637ee8 100644
+--- a/mediapipe/framework/formats/object_detection/anchor.proto
++++ b/mediapipe/framework/formats/object_detection/anchor.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // The anchor representation for object detection.
+ message Anchor {
+diff --git a/mediapipe/framework/formats/rect.proto b/mediapipe/framework/formats/rect.proto
+index 6b57a4a4..7e10850e 100644
+--- a/mediapipe/framework/formats/rect.proto
++++ b/mediapipe/framework/formats/rect.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.formats.proto";
+ option java_outer_classname = "RectProto";
+diff --git a/mediapipe/framework/formats/time_series_header.proto b/mediapipe/framework/formats/time_series_header.proto
+index a16f47d9..f69bd109 100644
+--- a/mediapipe/framework/formats/time_series_header.proto
++++ b/mediapipe/framework/formats/time_series_header.proto
+@@ -20,6 +20,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Header for a uniformly sampled time series stream. Each Packet in
+ // the stream is a Matrix, and each column is a (vector-valued) sample of
+diff --git a/mediapipe/framework/mediapipe_options.proto b/mediapipe/framework/mediapipe_options.proto
+index 0ded9597..b96384f3 100644
+--- a/mediapipe/framework/mediapipe_options.proto
++++ b/mediapipe/framework/mediapipe_options.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.proto";
+ option java_outer_classname = "MediaPipeOptionsProto";
+diff --git a/mediapipe/framework/packet_factory.proto b/mediapipe/framework/packet_factory.proto
+index 627e06aa..973b5670 100644
+--- a/mediapipe/framework/packet_factory.proto
++++ b/mediapipe/framework/packet_factory.proto
+@@ -21,6 +21,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.proto";
+ option java_outer_classname = "PacketFactoryProto";
+diff --git a/mediapipe/framework/packet_generator.proto b/mediapipe/framework/packet_generator.proto
+index 473908e0..4383384b 100644
+--- a/mediapipe/framework/packet_generator.proto
++++ b/mediapipe/framework/packet_generator.proto
+@@ -21,6 +21,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.proto";
+ option java_outer_classname = "PacketGeneratorProto";
+diff --git a/mediapipe/framework/packet_test.proto b/mediapipe/framework/packet_test.proto
+index bccfd6b5..3afb73d1 100644
+--- a/mediapipe/framework/packet_test.proto
++++ b/mediapipe/framework/packet_test.proto
+@@ -17,6 +17,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message PacketTestProto {
+   // Tests that the tags used to encode the timestamp do not interfere with
+diff --git a/mediapipe/framework/status_handler.proto b/mediapipe/framework/status_handler.proto
+index 5cc3018c..b936295c 100644
+--- a/mediapipe/framework/status_handler.proto
++++ b/mediapipe/framework/status_handler.proto
+@@ -21,6 +21,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/mediapipe_options.proto";
+ 
+diff --git a/mediapipe/framework/stream_handler.proto b/mediapipe/framework/stream_handler.proto
+index cdb31959..9e3a236a 100644
+--- a/mediapipe/framework/stream_handler.proto
++++ b/mediapipe/framework/stream_handler.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/mediapipe_options.proto";
+ 
+diff --git a/mediapipe/framework/stream_handler/default_input_stream_handler.proto b/mediapipe/framework/stream_handler/default_input_stream_handler.proto
+index 11638e7c..9cf982c6 100644
+--- a/mediapipe/framework/stream_handler/default_input_stream_handler.proto
++++ b/mediapipe/framework/stream_handler/default_input_stream_handler.proto
+@@ -20,6 +20,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/mediapipe_options.proto";
+ 
+diff --git a/mediapipe/framework/stream_handler/fixed_size_input_stream_handler.proto b/mediapipe/framework/stream_handler/fixed_size_input_stream_handler.proto
+index f2ce235b..f9a0529a 100644
+--- a/mediapipe/framework/stream_handler/fixed_size_input_stream_handler.proto
++++ b/mediapipe/framework/stream_handler/fixed_size_input_stream_handler.proto
+@@ -20,6 +20,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/mediapipe_options.proto";
+ 
+diff --git a/mediapipe/framework/stream_handler/sync_set_input_stream_handler.proto b/mediapipe/framework/stream_handler/sync_set_input_stream_handler.proto
+index 8dc4d0f6..4ee4176a 100644
+--- a/mediapipe/framework/stream_handler/sync_set_input_stream_handler.proto
++++ b/mediapipe/framework/stream_handler/sync_set_input_stream_handler.proto
+@@ -20,6 +20,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/mediapipe_options.proto";
+ 
+diff --git a/mediapipe/framework/stream_handler/timestamp_align_input_stream_handler.proto b/mediapipe/framework/stream_handler/timestamp_align_input_stream_handler.proto
+index cbbe2973..250439e1 100644
+--- a/mediapipe/framework/stream_handler/timestamp_align_input_stream_handler.proto
++++ b/mediapipe/framework/stream_handler/timestamp_align_input_stream_handler.proto
+@@ -1,6 +1,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/mediapipe_options.proto";
+ 
+diff --git a/mediapipe/framework/test_calculators.proto b/mediapipe/framework/test_calculators.proto
+index af75dc13..b95c3517 100644
+--- a/mediapipe/framework/test_calculators.proto
++++ b/mediapipe/framework/test_calculators.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/testdata/night_light_calculator.proto b/mediapipe/framework/testdata/night_light_calculator.proto
+index 2f1fb7db..b2fa84ec 100644
+--- a/mediapipe/framework/testdata/night_light_calculator.proto
++++ b/mediapipe/framework/testdata/night_light_calculator.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/testdata/sky_light_calculator.proto b/mediapipe/framework/testdata/sky_light_calculator.proto
+index 0bf0445b..f1987885 100644
+--- a/mediapipe/framework/testdata/sky_light_calculator.proto
++++ b/mediapipe/framework/testdata/sky_light_calculator.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto3";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // A proto3 calculator options for testing.
+ message SkyLightCalculatorOptions {
+diff --git a/mediapipe/framework/thread_pool_executor.proto b/mediapipe/framework/thread_pool_executor.proto
+index 50b19eba..59de7f5f 100644
+--- a/mediapipe/framework/thread_pool_executor.proto
++++ b/mediapipe/framework/thread_pool_executor.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/mediapipe_options.proto";
+ 
+diff --git a/mediapipe/framework/tool/calculator_graph_template.proto b/mediapipe/framework/tool/calculator_graph_template.proto
+index 31c23381..1a864e43 100644
+--- a/mediapipe/framework/tool/calculator_graph_template.proto
++++ b/mediapipe/framework/tool/calculator_graph_template.proto
+@@ -1,6 +1,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/framework/calculator_options.proto";
+diff --git a/mediapipe/framework/tool/field_data.proto b/mediapipe/framework/tool/field_data.proto
+index c8713c2e..d3a6a86f 100644
+--- a/mediapipe/framework/tool/field_data.proto
++++ b/mediapipe/framework/tool/field_data.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // `MessageData`, like protobuf.Any, contains an arbitrary serialized protbuf
+ // along with a URL that describes the type of the serialized message.
+diff --git a/mediapipe/framework/tool/node_chain_subgraph.proto b/mediapipe/framework/tool/node_chain_subgraph.proto
+index c6e8980a..c4c114d4 100644
+--- a/mediapipe/framework/tool/node_chain_subgraph.proto
++++ b/mediapipe/framework/tool/node_chain_subgraph.proto
+@@ -1,6 +1,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/tool/packet_generator_wrapper_calculator.proto b/mediapipe/framework/tool/packet_generator_wrapper_calculator.proto
+index ca3c0464..bc651d74 100644
+--- a/mediapipe/framework/tool/packet_generator_wrapper_calculator.proto
++++ b/mediapipe/framework/tool/packet_generator_wrapper_calculator.proto
+@@ -1,6 +1,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator_options.proto";
+ import "mediapipe/framework/packet_generator.proto";
+diff --git a/mediapipe/framework/tool/source.proto b/mediapipe/framework/tool/source.proto
+index 40660bbf..cb6d801f 100644
+--- a/mediapipe/framework/tool/source.proto
++++ b/mediapipe/framework/tool/source.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/tool/switch_container.proto b/mediapipe/framework/tool/switch_container.proto
+index 16050ef6..46a401cb 100644
+--- a/mediapipe/framework/tool/switch_container.proto
++++ b/mediapipe/framework/tool/switch_container.proto
+@@ -1,6 +1,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/framework/tool/testdata/frozen_generator.proto b/mediapipe/framework/tool/testdata/frozen_generator.proto
+index 5f133f46..439c7959 100644
+--- a/mediapipe/framework/tool/testdata/frozen_generator.proto
++++ b/mediapipe/framework/tool/testdata/frozen_generator.proto
+@@ -1,6 +1,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/packet_generator.proto";
+ 
+diff --git a/mediapipe/gpu/copy_calculator.proto b/mediapipe/gpu/copy_calculator.proto
+index fca53e98..0cf05d81 100644
+--- a/mediapipe/gpu/copy_calculator.proto
++++ b/mediapipe/gpu/copy_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/gpu/gl_animation_overlay_calculator.proto b/mediapipe/gpu/gl_animation_overlay_calculator.proto
+index 4966f0ae..47091912 100644
+--- a/mediapipe/gpu/gl_animation_overlay_calculator.proto
++++ b/mediapipe/gpu/gl_animation_overlay_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/gpu/gl_context_options.proto b/mediapipe/gpu/gl_context_options.proto
+index 25b82c25..00d2dff1 100644
+--- a/mediapipe/gpu/gl_context_options.proto
++++ b/mediapipe/gpu/gl_context_options.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/gpu/gl_scaler_calculator.proto b/mediapipe/gpu/gl_scaler_calculator.proto
+index 99c0d439..ba43f698 100644
+--- a/mediapipe/gpu/gl_scaler_calculator.proto
++++ b/mediapipe/gpu/gl_scaler_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/gpu/scale_mode.proto";
+diff --git a/mediapipe/gpu/gl_surface_sink_calculator.proto b/mediapipe/gpu/gl_surface_sink_calculator.proto
+index 8621908f..7bbfb324 100644
+--- a/mediapipe/gpu/gl_surface_sink_calculator.proto
++++ b/mediapipe/gpu/gl_surface_sink_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/gpu/scale_mode.proto";
+diff --git a/mediapipe/gpu/gpu_origin.proto b/mediapipe/gpu/gpu_origin.proto
+index f4db8353..18ec87ee 100644
+--- a/mediapipe/gpu/gpu_origin.proto
++++ b/mediapipe/gpu/gpu_origin.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message GpuOrigin {
+   enum Mode {
+diff --git a/mediapipe/gpu/scale_mode.proto b/mediapipe/gpu/scale_mode.proto
+index ef7d7af7..19523f78 100644
+--- a/mediapipe/gpu/scale_mode.proto
++++ b/mediapipe/gpu/scale_mode.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // We wrap the enum in a message to avoid namespace collisions.
+ message ScaleMode {
+diff --git a/mediapipe/graphs/instant_motion_tracking/calculators/sticker_buffer.proto b/mediapipe/graphs/instant_motion_tracking/calculators/sticker_buffer.proto
+index b73209cf..563d7fca 100644
+--- a/mediapipe/graphs/instant_motion_tracking/calculators/sticker_buffer.proto
++++ b/mediapipe/graphs/instant_motion_tracking/calculators/sticker_buffer.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.graphs.instantmotiontracking";
+ option java_outer_classname = "StickerBufferProto";
+diff --git a/mediapipe/graphs/iris_tracking/calculators/iris_to_depth_calculator.proto b/mediapipe/graphs/iris_tracking/calculators/iris_to_depth_calculator.proto
+index 786cd301..af3a4c59 100644
+--- a/mediapipe/graphs/iris_tracking/calculators/iris_to_depth_calculator.proto
++++ b/mediapipe/graphs/iris_tracking/calculators/iris_to_depth_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/graphs/iris_tracking/calculators/iris_to_render_data_calculator.proto b/mediapipe/graphs/iris_tracking/calculators/iris_to_render_data_calculator.proto
+index e0fc677e..404b5477 100644
+--- a/mediapipe/graphs/iris_tracking/calculators/iris_to_render_data_calculator.proto
++++ b/mediapipe/graphs/iris_tracking/calculators/iris_to_render_data_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/util/color.proto";
+diff --git a/mediapipe/graphs/object_detection_3d/calculators/annotations_to_model_matrices_calculator.proto b/mediapipe/graphs/object_detection_3d/calculators/annotations_to_model_matrices_calculator.proto
+index c0159d45..ba463aac 100644
+--- a/mediapipe/graphs/object_detection_3d/calculators/annotations_to_model_matrices_calculator.proto
++++ b/mediapipe/graphs/object_detection_3d/calculators/annotations_to_model_matrices_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/graphs/object_detection_3d/calculators/annotations_to_render_data_calculator.proto b/mediapipe/graphs/object_detection_3d/calculators/annotations_to_render_data_calculator.proto
+index 1e04d955..a178231d 100644
+--- a/mediapipe/graphs/object_detection_3d/calculators/annotations_to_render_data_calculator.proto
++++ b/mediapipe/graphs/object_detection_3d/calculators/annotations_to_render_data_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/util/color.proto";
+diff --git a/mediapipe/graphs/object_detection_3d/calculators/model_matrix.proto b/mediapipe/graphs/object_detection_3d/calculators/model_matrix.proto
+index 406cc9fc..bddad31b 100644
+--- a/mediapipe/graphs/object_detection_3d/calculators/model_matrix.proto
++++ b/mediapipe/graphs/object_detection_3d/calculators/model_matrix.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message TimedModelMatrixProto {
+   // 4x4 model matrix stored in ROW major order.
+diff --git a/mediapipe/modules/face_detection/face_detection.proto b/mediapipe/modules/face_detection/face_detection.proto
+index f5df8d64..de82a012 100644
+--- a/mediapipe/modules/face_detection/face_detection.proto
++++ b/mediapipe/modules/face_detection/face_detection.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/calculators/tensor/inference_calculator.proto";
+ import "mediapipe/framework/calculator_options.proto";
+diff --git a/mediapipe/modules/face_geometry/effect_renderer_calculator.proto b/mediapipe/modules/face_geometry/effect_renderer_calculator.proto
+index 6c23903f..e9cda2d1 100644
+--- a/mediapipe/modules/face_geometry/effect_renderer_calculator.proto
++++ b/mediapipe/modules/face_geometry/effect_renderer_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator_options.proto";
+ 
+diff --git a/mediapipe/modules/face_geometry/env_generator_calculator.proto b/mediapipe/modules/face_geometry/env_generator_calculator.proto
+index dea2ae0a..e29003ab 100644
+--- a/mediapipe/modules/face_geometry/env_generator_calculator.proto
++++ b/mediapipe/modules/face_geometry/env_generator_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator_options.proto";
+ import "mediapipe/modules/face_geometry/protos/environment.proto";
+diff --git a/mediapipe/modules/face_geometry/geometry_pipeline_calculator.proto b/mediapipe/modules/face_geometry/geometry_pipeline_calculator.proto
+index 638bb450..f7bd5493 100644
+--- a/mediapipe/modules/face_geometry/geometry_pipeline_calculator.proto
++++ b/mediapipe/modules/face_geometry/geometry_pipeline_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator_options.proto";
+ 
+diff --git a/mediapipe/modules/holistic_landmark/calculators/roi_tracking_calculator.proto b/mediapipe/modules/holistic_landmark/calculators/roi_tracking_calculator.proto
+index ec3cf227..c90c2979 100644
+--- a/mediapipe/modules/holistic_landmark/calculators/roi_tracking_calculator.proto
++++ b/mediapipe/modules/holistic_landmark/calculators/roi_tracking_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/modules/objectron/calculators/a_r_capture_metadata.proto b/mediapipe/modules/objectron/calculators/a_r_capture_metadata.proto
+index edc8c4b3..1eb420f5 100644
+--- a/mediapipe/modules/objectron/calculators/a_r_capture_metadata.proto
++++ b/mediapipe/modules/objectron/calculators/a_r_capture_metadata.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Info about the camera characteristics used to capture images and depth data.
+ // See developer.apple.com/documentation/avfoundation/avcameracalibrationdata
+diff --git a/mediapipe/modules/objectron/calculators/annotation_data.proto b/mediapipe/modules/objectron/calculators/annotation_data.proto
+index 6c26d29f..50377613 100644
+--- a/mediapipe/modules/objectron/calculators/annotation_data.proto
++++ b/mediapipe/modules/objectron/calculators/annotation_data.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto3";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/modules/objectron/calculators/a_r_capture_metadata.proto";
+ import "mediapipe/modules/objectron/calculators/object.proto";
+diff --git a/mediapipe/modules/objectron/calculators/belief_decoder_config.proto b/mediapipe/modules/objectron/calculators/belief_decoder_config.proto
+index f0f10ae8..179e43e9 100644
+--- a/mediapipe/modules/objectron/calculators/belief_decoder_config.proto
++++ b/mediapipe/modules/objectron/calculators/belief_decoder_config.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message BeliefDecoderConfig {
+   optional float heatmap_threshold = 1 [default = 0.9];
+diff --git a/mediapipe/modules/objectron/calculators/camera_parameters.proto b/mediapipe/modules/objectron/calculators/camera_parameters.proto
+index f5c843b6..a7d97e70 100644
+--- a/mediapipe/modules/objectron/calculators/camera_parameters.proto
++++ b/mediapipe/modules/objectron/calculators/camera_parameters.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message CameraParametersProto {
+   // This number is non-negative, it represents camera height above ground
+diff --git a/mediapipe/modules/objectron/calculators/filter_detection_calculator.proto b/mediapipe/modules/objectron/calculators/filter_detection_calculator.proto
+index ea79b8d4..659996c7 100644
+--- a/mediapipe/modules/objectron/calculators/filter_detection_calculator.proto
++++ b/mediapipe/modules/objectron/calculators/filter_detection_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/modules/objectron/calculators/frame_annotation_to_rect_calculator.proto b/mediapipe/modules/objectron/calculators/frame_annotation_to_rect_calculator.proto
+index 8959cb86..810ac1a8 100644
+--- a/mediapipe/modules/objectron/calculators/frame_annotation_to_rect_calculator.proto
++++ b/mediapipe/modules/objectron/calculators/frame_annotation_to_rect_calculator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/modules/objectron/calculators/frame_annotation_tracker_calculator.proto b/mediapipe/modules/objectron/calculators/frame_annotation_tracker_calculator.proto
+index f37308a3..02e99186 100644
+--- a/mediapipe/modules/objectron/calculators/frame_annotation_tracker_calculator.proto
++++ b/mediapipe/modules/objectron/calculators/frame_annotation_tracker_calculator.proto
+@@ -17,6 +17,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/modules/objectron/calculators/lift_2d_frame_annotation_to_3d_calculator.proto b/mediapipe/modules/objectron/calculators/lift_2d_frame_annotation_to_3d_calculator.proto
+index a3005c1f..a86fb1a6 100644
+--- a/mediapipe/modules/objectron/calculators/lift_2d_frame_annotation_to_3d_calculator.proto
++++ b/mediapipe/modules/objectron/calculators/lift_2d_frame_annotation_to_3d_calculator.proto
+@@ -17,6 +17,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/modules/objectron/calculators/belief_decoder_config.proto";
+diff --git a/mediapipe/modules/objectron/calculators/object.proto b/mediapipe/modules/objectron/calculators/object.proto
+index a07e83fe..a7359a8e 100644
+--- a/mediapipe/modules/objectron/calculators/object.proto
++++ b/mediapipe/modules/objectron/calculators/object.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto3";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message KeyPoint {
+   // The position of the keypoint in the local coordinate system of the rigid
+diff --git a/mediapipe/modules/objectron/calculators/tensors_to_objects_calculator.proto b/mediapipe/modules/objectron/calculators/tensors_to_objects_calculator.proto
+index 8d46fce7..2a7f0272 100644
+--- a/mediapipe/modules/objectron/calculators/tensors_to_objects_calculator.proto
++++ b/mediapipe/modules/objectron/calculators/tensors_to_objects_calculator.proto
+@@ -17,6 +17,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/modules/objectron/calculators/belief_decoder_config.proto";
+diff --git a/mediapipe/modules/objectron/calculators/tflite_tensors_to_objects_calculator.proto b/mediapipe/modules/objectron/calculators/tflite_tensors_to_objects_calculator.proto
+index 32520d98..8be64598 100644
+--- a/mediapipe/modules/objectron/calculators/tflite_tensors_to_objects_calculator.proto
++++ b/mediapipe/modules/objectron/calculators/tflite_tensors_to_objects_calculator.proto
+@@ -17,6 +17,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/modules/objectron/calculators/belief_decoder_config.proto";
+diff --git a/mediapipe/tasks/cc/components/calculators/classification_aggregation_calculator.proto b/mediapipe/tasks/cc/components/calculators/classification_aggregation_calculator.proto
+index e2ed1788..bfc0b2e1 100644
+--- a/mediapipe/tasks/cc/components/calculators/classification_aggregation_calculator.proto
++++ b/mediapipe/tasks/cc/components/calculators/classification_aggregation_calculator.proto
+@@ -16,6 +16,7 @@ limitations under the License.
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/tasks/cc/components/calculators/tensors_to_embeddings_calculator.proto b/mediapipe/tasks/cc/components/calculators/tensors_to_embeddings_calculator.proto
+index fd87383b..a2c57c2e 100644
+--- a/mediapipe/tasks/cc/components/calculators/tensors_to_embeddings_calculator.proto
++++ b/mediapipe/tasks/cc/components/calculators/tensors_to_embeddings_calculator.proto
+@@ -16,6 +16,7 @@ limitations under the License.
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ import "mediapipe/tasks/cc/components/processors/proto/embedder_options.proto";
+diff --git a/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/combined_prediction_calculator.proto b/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/combined_prediction_calculator.proto
+index 730e7dd7..766e8b70 100644
+--- a/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/combined_prediction_calculator.proto
++++ b/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/combined_prediction_calculator.proto
+@@ -16,6 +16,7 @@ limitations under the License.
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/landmarks_to_matrix_calculator.proto b/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/landmarks_to_matrix_calculator.proto
+index 10b03444..d7f7d199 100644
+--- a/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/landmarks_to_matrix_calculator.proto
++++ b/mediapipe/tasks/cc/vision/gesture_recognizer/calculators/landmarks_to_matrix_calculator.proto
+@@ -16,6 +16,7 @@ limitations under the License.
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/tasks/cc/vision/hand_landmarker/calculators/hand_association_calculator.proto b/mediapipe/tasks/cc/vision/hand_landmarker/calculators/hand_association_calculator.proto
+index e7229b4a..47315130 100644
+--- a/mediapipe/tasks/cc/vision/hand_landmarker/calculators/hand_association_calculator.proto
++++ b/mediapipe/tasks/cc/vision/hand_landmarker/calculators/hand_association_calculator.proto
+@@ -16,6 +16,7 @@ limitations under the License.
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/util/audio_decoder.proto b/mediapipe/util/audio_decoder.proto
+index 67c54a20..930e118b 100644
+--- a/mediapipe/util/audio_decoder.proto
++++ b/mediapipe/util/audio_decoder.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/framework/calculator.proto";
+ 
+diff --git a/mediapipe/util/color.proto b/mediapipe/util/color.proto
+index c6121121..609c6ed5 100644
+--- a/mediapipe/util/color.proto
++++ b/mediapipe/util/color.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message Color {
+   optional int32 r = 1;
+diff --git a/mediapipe/util/label_map.proto b/mediapipe/util/label_map.proto
+index 79301d2b..c2fd6867 100644
+--- a/mediapipe/util/label_map.proto
++++ b/mediapipe/util/label_map.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Mapping a numerical class index output to a Knowledge Graph entity
+ // ID or any other string label representing this class. Optionally it is
+diff --git a/mediapipe/util/render_data.proto b/mediapipe/util/render_data.proto
+index 62cb750b..1ebef7c8 100644
+--- a/mediapipe/util/render_data.proto
++++ b/mediapipe/util/render_data.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/color.proto";
+ 
+diff --git a/mediapipe/util/tracking/box_detector.proto b/mediapipe/util/tracking/box_detector.proto
+index 287ba4e1..008e52ca 100644
+--- a/mediapipe/util/tracking/box_detector.proto
++++ b/mediapipe/util/tracking/box_detector.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/box_tracker.proto";
+ import "mediapipe/util/tracking/region_flow.proto";
+diff --git a/mediapipe/util/tracking/box_tracker.proto b/mediapipe/util/tracking/box_tracker.proto
+index 404c1bd3..d39678d1 100644
+--- a/mediapipe/util/tracking/box_tracker.proto
++++ b/mediapipe/util/tracking/box_tracker.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/tracking.proto";
+ 
+diff --git a/mediapipe/util/tracking/camera_motion.proto b/mediapipe/util/tracking/camera_motion.proto
+index 9e19f4ad..eb187de3 100644
+--- a/mediapipe/util/tracking/camera_motion.proto
++++ b/mediapipe/util/tracking/camera_motion.proto
+@@ -22,6 +22,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/motion_models.proto";
+ 
+diff --git a/mediapipe/util/tracking/flow_packager.proto b/mediapipe/util/tracking/flow_packager.proto
+index 5ab71e71..09abf72b 100644
+--- a/mediapipe/util/tracking/flow_packager.proto
++++ b/mediapipe/util/tracking/flow_packager.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/motion_models.proto";
+ import "mediapipe/util/tracking/region_flow.proto";
+diff --git a/mediapipe/util/tracking/frame_selection.proto b/mediapipe/util/tracking/frame_selection.proto
+index 35712c20..b0219921 100644
+--- a/mediapipe/util/tracking/frame_selection.proto
++++ b/mediapipe/util/tracking/frame_selection.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/camera_motion.proto";
+ import "mediapipe/util/tracking/frame_selection_solution_evaluator.proto";
+diff --git a/mediapipe/util/tracking/frame_selection_solution_evaluator.proto b/mediapipe/util/tracking/frame_selection_solution_evaluator.proto
+index b2b92c99..c76908e2 100644
+--- a/mediapipe/util/tracking/frame_selection_solution_evaluator.proto
++++ b/mediapipe/util/tracking/frame_selection_solution_evaluator.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message FrameSelectionSolutionEvaluatorOptions {
+   extensions 20000 to max;
+diff --git a/mediapipe/util/tracking/motion_analysis.proto b/mediapipe/util/tracking/motion_analysis.proto
+index 97d6d1d7..2f7074c3 100644
+--- a/mediapipe/util/tracking/motion_analysis.proto
++++ b/mediapipe/util/tracking/motion_analysis.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/motion_estimation.proto";
+ import "mediapipe/util/tracking/motion_saliency.proto";
+diff --git a/mediapipe/util/tracking/motion_estimation.proto b/mediapipe/util/tracking/motion_estimation.proto
+index 79d60c64..1235cda9 100644
+--- a/mediapipe/util/tracking/motion_estimation.proto
++++ b/mediapipe/util/tracking/motion_estimation.proto
+@@ -16,6 +16,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Note: In general for Estimation modes, the prefix are used as follows:
+ // L2:        minimize squared norm of error
+diff --git a/mediapipe/util/tracking/motion_models.proto b/mediapipe/util/tracking/motion_models.proto
+index 889cc425..6cb44ee9 100644
+--- a/mediapipe/util/tracking/motion_models.proto
++++ b/mediapipe/util/tracking/motion_models.proto
+@@ -24,6 +24,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Here x represents a 2D point in the image plane, in the following
+ // coordinate system:
+diff --git a/mediapipe/util/tracking/motion_saliency.proto b/mediapipe/util/tracking/motion_saliency.proto
+index b7702dae..6341d400 100644
+--- a/mediapipe/util/tracking/motion_saliency.proto
++++ b/mediapipe/util/tracking/motion_saliency.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Next tag: 17
+ message MotionSaliencyOptions {
+diff --git a/mediapipe/util/tracking/push_pull_filtering.proto b/mediapipe/util/tracking/push_pull_filtering.proto
+index fa27e872..32ed8913 100644
+--- a/mediapipe/util/tracking/push_pull_filtering.proto
++++ b/mediapipe/util/tracking/push_pull_filtering.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message PushPullOptions {
+   // Sigma for color difference.
+diff --git a/mediapipe/util/tracking/region_flow.proto b/mediapipe/util/tracking/region_flow.proto
+index bd93c0b1..82acbef1 100644
+--- a/mediapipe/util/tracking/region_flow.proto
++++ b/mediapipe/util/tracking/region_flow.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ option java_package = "com.google.mediapipe.tracking";
+ option java_multiple_files = true;
+diff --git a/mediapipe/util/tracking/region_flow_computation.proto b/mediapipe/util/tracking/region_flow_computation.proto
+index 800e430a..a758e510 100644
+--- a/mediapipe/util/tracking/region_flow_computation.proto
++++ b/mediapipe/util/tracking/region_flow_computation.proto
+@@ -19,6 +19,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/tone_estimation.proto";
+ 
+diff --git a/mediapipe/util/tracking/tone_estimation.proto b/mediapipe/util/tracking/tone_estimation.proto
+index 711765a0..1694e682 100644
+--- a/mediapipe/util/tracking/tone_estimation.proto
++++ b/mediapipe/util/tracking/tone_estimation.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/tone_models.proto";
+ 
+diff --git a/mediapipe/util/tracking/tone_models.proto b/mediapipe/util/tracking/tone_models.proto
+index d53ad217..304ed53e 100644
+--- a/mediapipe/util/tracking/tone_models.proto
++++ b/mediapipe/util/tracking/tone_models.proto
+@@ -18,6 +18,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ // Transforms a 3D color vector x = (c1, c2, c3) according to
+ //  [ gain_c1    0      0      bias_c1       *   [ c1
+diff --git a/mediapipe/util/tracking/tracked_detection_manager_config.proto b/mediapipe/util/tracking/tracked_detection_manager_config.proto
+index 9162c954..2a0a37fc 100644
+--- a/mediapipe/util/tracking/tracked_detection_manager_config.proto
++++ b/mediapipe/util/tracking/tracked_detection_manager_config.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ message TrackedDetectionManagerConfig {
+   // When we compare two detection boxes, if the ratio of the area is
+diff --git a/mediapipe/util/tracking/tracking.proto b/mediapipe/util/tracking/tracking.proto
+index ff003801..eb783e97 100644
+--- a/mediapipe/util/tracking/tracking.proto
++++ b/mediapipe/util/tracking/tracking.proto
+@@ -15,6 +15,7 @@
+ syntax = "proto2";
+ 
+ package mediapipe;
++option csharp_namespace = "Mediapipe.Net.Framework.Protobuf";
+ 
+ import "mediapipe/util/tracking/motion_models.proto";
  
