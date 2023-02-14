@@ -39,21 +39,24 @@ jobs:
           key: ${{ env.cache-name }}-protobuf-dev
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup .NET 6
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "6.0.x"
 
       - name: Setup Python 3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: "3.10"
           architecture: "x64"
 
       - name: Install Numpy
         run: pip install numpy
+
+      - name: Build C# Protobuf sources
+        run: python build.py build --protobuf -vv
 
       - name: Restore packages
         run: dotnet restore ${{ env.PROTO_NAME }}
@@ -65,7 +68,7 @@ jobs:
         run: dotnet pack ${{ env.PROTO_NAME }} --no-restore --no-build --configuration Release --output ${{ env.PACKAGE_OUTDIR }}
 
       - name: Upload Nuget package artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.PROTO_NAME }}-nuget
           path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
