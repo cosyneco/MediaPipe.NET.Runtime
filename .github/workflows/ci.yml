@@ -28,7 +28,7 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ~/.cache/bazel
-          key: Linux-${{ env.cache-name }}-dev
+          key: ${{ env.cache-name }}-protobuf-dev
 
       - name: Cache build directory
         uses: actions/cache@v3
@@ -36,7 +36,7 @@ jobs:
           cache-name: build-cache
         with:
           path: build
-          key: Linux-${{ env.cache-name }}-dev
+          key: ${{ env.cache-name }}-protobuf-dev
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -61,11 +61,6 @@ jobs:
 
       - name: Install Numpy
         run: pip install numpy
-
-      - name: Build C# Protobuf sources (Linux)
-        run: python build.py build --protobuf -vv
-        env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Restore packages
         run: dotnet restore ${{ env.PROTO_NAME }}
@@ -109,7 +104,7 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ${{ matrix.os.cache-path }}
-          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.runner }}-${{ env.cache-name }}-dev
 
       - name: Cache build directory
         uses: actions/cache@v3
@@ -117,7 +112,7 @@ jobs:
           cache-name: build-cache
         with:
           path: build
-          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.runner }}-${{ env.cache-name }}-dev
 
       - name: Checkout
         uses: actions/checkout@v3

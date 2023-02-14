@@ -21,7 +21,7 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ~/.cache/bazel
-          key: Linux-${{ env.cache-name }}-dev
+          key: ${{ env.cache-name }}-protobuf-dev
 
       - name: Cache build directory
         uses: actions/cache@v3
@@ -29,7 +29,7 @@ jobs:
           cache-name: build-cache
         with:
           path: build
-          key: Linux-${{ env.cache-name }}-dev
+          key: ${{ env.cache-name }}-protobuf-dev
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -93,7 +93,7 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ${{ matrix.os.cache-path }}
-          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.runner }}-${{ env.cache-name }}-dev
 
       - name: Cache build directory
         uses: actions/cache@v3
@@ -101,7 +101,7 @@ jobs:
           cache-name: build-cache
         with:
           path: build
-          key: ${{ matrix.os.name }}-${{ env.cache-name }}-dev
+          key: ${{ matrix.os.runner }}-${{ env.cache-name }}-dev
 
       - name: Checkout
         uses: actions/checkout@v3
