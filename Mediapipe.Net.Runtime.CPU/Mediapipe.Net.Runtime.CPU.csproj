@@ -10,7 +10,7 @@
   <PropertyGroup Label="Nuget">
     <IsPackable>true</IsPackable>
     <PackageId>Mediapipe.Net.Runtime.CPU</PackageId>
-    <Version>1.0.0-alpha2</Version>
+    <Version>0.9.1-mpu-0.9.1-20230214</Version>
     <Authors>homuler;Vignette</Authors>
     <PackageTags>Google;Mediapipe;Tracking;Media Analysis</PackageTags>
     <Title>Mediapipe.Net.Runtime.CPU</Title>
