@@ -241,7 +241,7 @@ jobs:
         run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
 
       - name: Generate Release
-        uses: ncipollo/release-action@v3
+        uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           prerelease: ${{ github.event.release.prerelease }}
