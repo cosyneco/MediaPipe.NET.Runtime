@@ -37,6 +37,7 @@ http_archive(
         "-p1",
     ],
     patches = [
+        "@//third_party:proto_namespace.diff",
         "@//third_party:mediapipe_opencv.diff",
         "@//third_party:mediapipe_workaround.diff",
         "@//third_party:mediapipe_visibility.diff",
