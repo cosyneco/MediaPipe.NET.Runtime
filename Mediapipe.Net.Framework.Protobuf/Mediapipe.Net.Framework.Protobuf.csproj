@@ -9,7 +9,7 @@
 
   <PropertyGroup Label="Nuget">
     <PackageId>Mediapipe.Net.Framework.Protobuf</PackageId>
-    <Version>0.9.1-mpu-0.9.1-20230214.1 </Version>
+    <Version>0.9.1 </Version>
     <Authors>Vignette</Authors>
     <PackageTags>Google;MediaPipe;Protobuf;</PackageTags>
     <Title>Mediapipe.Net.Framework.Protobuf</Title>
